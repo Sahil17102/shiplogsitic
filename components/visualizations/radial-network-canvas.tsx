@@ -8,7 +8,7 @@ import { SunriseBackdrop } from "./sunrise-backdrop";
 
 export function RadialNetworkCanvas() {
   return (
-    <div className="relative isolate h-[430px] w-full overflow-hidden md:h-[528px]">
+    <div className="relative isolate h-[470px] w-full overflow-hidden sm:h-[540px] md:h-[640px]">
       <SunriseBackdrop />
       <Canvas
         camera={{ fov: 44, far: 70, near: 0.1, position: [0, 0.08, 12] }}
@@ -27,7 +27,7 @@ export function RadialNetworkCanvas() {
           gl.setClearColor(0x000000, 0);
           gl.outputColorSpace = THREE.SRGBColorSpace;
           gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.08;
+          gl.toneMappingExposure = 1.04;
         }}
       >
         <AdaptiveDpr />
@@ -35,7 +35,7 @@ export function RadialNetworkCanvas() {
       </Canvas>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-px bg-[linear-gradient(90deg,transparent,#8b5cf6_18%,#d946ef_50%,#8b5cf6_82%,transparent)] opacity-70"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-px bg-[linear-gradient(90deg,transparent,#786cff_16%,#d04eea_50%,#786cff_84%,transparent)] opacity-75"
       />
     </div>
   );
