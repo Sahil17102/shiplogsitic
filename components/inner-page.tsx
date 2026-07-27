@@ -30,6 +30,7 @@ const fulfilmentPages = new Set([
   "warehousing",
   "ecommerce-shipping",
   "book-shipment",
+  "weight-calculator",
   "courier-calculator",
   "pricing",
 ]);
@@ -108,6 +109,19 @@ function PageForm({ slug }: { slug: string }) {
         <div><Label>Payment</Label><select className={fieldClass}><option>Prepaid</option><option>Cash on delivery</option></select></div>
         <Button variant="blue" className="sm:col-span-2">Compare courier rates</Button>
         {done && <div className="sm:col-span-2"><SuccessBox title="Best rate: ₹86" copy="Shipray Economy · Estimated delivery in 4–5 business days. Taxes calculated at checkout." /></div>}
+      </form>
+    );
+  }
+
+  if (slug === "weight-calculator") {
+    return (
+      <form onSubmit={submit} className="grid gap-4 rounded-[28px] border border-line bg-white p-5 shadow-card sm:grid-cols-2 md:p-7">
+        <div><Label>Length</Label><input className={fieldClass} inputMode="decimal" placeholder="30 cm" required /></div>
+        <div><Label>Width</Label><input className={fieldClass} inputMode="decimal" placeholder="20 cm" required /></div>
+        <div><Label>Height</Label><input className={fieldClass} inputMode="decimal" placeholder="15 cm" required /></div>
+        <div><Label>Actual weight</Label><input className={fieldClass} inputMode="decimal" placeholder="1.5 kg" required /></div>
+        <Button variant="blue" className="sm:col-span-2">Calculate chargeable weight</Button>
+        {done && <div className="sm:col-span-2"><SuccessBox title="Chargeable weight: 1.8 kg" copy="The courier will compare actual and volumetric weight, then charge whichever is higher." /></div>}
       </form>
     );
   }
