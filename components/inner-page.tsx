@@ -8,7 +8,6 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
-  Code2,
   Copy,
   Eye,
   EyeOff,
@@ -16,7 +15,6 @@ import {
   LockKeyhole,
   Mail,
   MapPin,
-  PackageCheck,
   Search,
   Send,
   ShieldCheck,
@@ -26,6 +24,62 @@ import {
 import { pageData, services } from "@/lib/site-data";
 import { Button, Eyebrow, fieldClass, Label } from "./ui";
 import { cn } from "@/lib/utils";
+import { Brand } from "./brand";
+
+const fulfilmentPages = new Set([
+  "warehousing",
+  "ecommerce-shipping",
+  "book-shipment",
+  "courier-calculator",
+  "pricing",
+]);
+
+const globalFreightPages = new Set([
+  "services",
+  "international-shipping",
+  "air-freight",
+  "sea-freight",
+  "industries",
+]);
+
+const technologyPages = new Set([
+  "api-integration",
+  "dashboard-login",
+  "shipment-tracking",
+  "blog",
+]);
+
+function getHeroVisual(slug: string, pageName: string) {
+  if (fulfilmentPages.has(slug)) {
+    return {
+      src: "/ecommerce-fulfillment-team.png",
+      alt: `${pageName} team preparing customer parcels with Shipray Logistics`,
+      objectPosition: "50% center",
+    };
+  }
+
+  if (globalFreightPages.has(slug)) {
+    return {
+      src: "/shipray-logistics-hub.png",
+      alt: `${pageName} operations with cargo aircraft, delivery van and warehouse`,
+      objectPosition: "64% center",
+    };
+  }
+
+  if (technologyPages.has(slug)) {
+    return {
+      src: "/shipray-3d-logistics-hero.png",
+      alt: `${pageName} across Shipray's connected courier logistics network`,
+      objectPosition: "58% center",
+    };
+  }
+
+  return {
+    src: "/shipray-hero-operations.png",
+    alt: `${pageName} courier professional scanning a parcel for delivery`,
+    objectPosition: "64% center",
+  };
+}
 
 function PageForm({ slug }: { slug: string }) {
   const [done, setDone] = useState(false);
@@ -150,6 +204,7 @@ function SuccessBox({ title, copy }: { title: string; copy: string }) {
 export function InnerPage({ slug }: { slug: string }) {
   const data = pageData[slug];
   const isLegal = ["privacy-policy", "terms-and-conditions", "refund-policy"].includes(slug);
+  const heroVisual = getHeroVisual(slug, data.eyebrow);
   return (
     <>
       <section className="page-shell pb-16 pt-14 md:pb-24 md:pt-20">
@@ -172,10 +227,24 @@ export function InnerPage({ slug }: { slug: string }) {
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.1 }} className="relative overflow-hidden rounded-[28px] border-[8px] border-white bg-white shadow-float">
               <div className="relative aspect-[4/3]">
-                <Image src="/shipray-logistics-hub.png" fill priority alt={`${data.eyebrow} with Shipray Logistics`} className="object-cover object-right" sizes="(max-width: 1024px) 100vw, 600px" />
+                <Image
+                  src={heroVisual.src}
+                  fill
+                  priority
+                  alt={heroVisual.alt}
+                  className="object-cover"
+                  style={{ objectPosition: heroVisual.objectPosition }}
+                  sizes="(max-width: 1024px) 100vw, 600px"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
                 <div className="glass absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl p-4">
-                  <div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-blue text-white">{slug === "api-integration" ? <Code2 className="h-4 w-4" /> : <PackageCheck className="h-4 w-4" />}</div><div><p className="text-[10px] font-bold text-muted">Shipray network</p><p className="text-sm font-black">Moving with confidence</p></div></div>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <Brand compact />
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-bold text-muted">Shipray Logistics</p>
+                      <p className="truncate text-sm font-black">{data.eyebrow}</p>
+                    </div>
+                  </div>
                   <ShieldCheck className="h-5 w-5 text-emerald-600" />
                 </div>
               </div>
