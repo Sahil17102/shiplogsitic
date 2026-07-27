@@ -1,37 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Globe2, Menu, PackageCheck } from "lucide-react";
-import { useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-
-const navigation = [
-  ["Shipping & Freight", "/services"],
-  ["Solutions", "/industries"],
-  ["Carriers", "/carriers"],
-  ["Resources", "/blog"],
-  ["About", "/about"],
-];
-
-function HeroBrand() {
-  return (
-    <Link href="/" aria-label="Shipray home" className="inline-flex items-center gap-3 text-white">
-      <span className="grid h-10 w-10 place-items-center">
-        <svg viewBox="0 0 42 34" className="h-9 w-11" fill="none" aria-hidden="true">
-          <rect x="1" y="4" width="8" height="11" rx="2" fill="#fff" />
-          <rect x="1" y="19" width="8" height="11" rx="2" fill="#fff" />
-          <rect x="13" y="1" width="8" height="17" rx="2" fill="#5BE9E1" />
-          <rect x="13" y="22" width="8" height="8" rx="2" fill="#fff" />
-          <rect x="25" y="8" width="16" height="20" rx="2.5" fill="#38DDD3" />
-          <path d="M1 31.5h40" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-        </svg>
-      </span>
-      <span className="font-display text-[27px] font-extrabold uppercase tracking-[-.035em] md:text-[31px]">
-        Shipray
-      </span>
-    </Link>
-  );
-}
+import { ArrowRight, PackageCheck } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 function RadialDial({ side }: { side: "left" | "right" }) {
   const ticks = Array.from({ length: 54 }, (_, index) => {
@@ -79,7 +50,6 @@ function RadialDial({ side }: { side: "left" | "right" }) {
 }
 
 export function FreightOrbitHero() {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const smoothX = useSpring(pointerX, { stiffness: 35, damping: 22, mass: 1.1 });
@@ -118,63 +88,7 @@ export function FreightOrbitHero() {
         <RadialDial side="right" />
       </motion.div>
 
-      <header className="relative z-20 mx-auto flex h-[122px] max-w-[1580px] items-center justify-between px-5 md:px-10 xl:px-14">
-        <HeroBrand />
-        <nav className="hidden items-center gap-8 xl:flex" aria-label="Homepage navigation">
-          {navigation.map(([label, href]) => (
-            <Link key={label} href={href} className="text-[15px] font-semibold text-white/95 transition hover:text-cyan-200">
-              {label}
-            </Link>
-          ))}
-        </nav>
-        <div className="hidden items-center gap-6 lg:flex">
-          <Link href="/contact" className="inline-flex items-center gap-5 text-sm font-semibold text-white">
-            <Globe2 className="h-5 w-5" />
-            <span className="h-6 w-px bg-white/75" />
-            Contact us
-          </Link>
-          <span className="h-6 w-px bg-white/75" />
-          <Link href="/dashboard-login" className="text-sm font-semibold text-white">Log in</Link>
-          <Link href="/contact" className="inline-flex h-11 items-center justify-center rounded-xl bg-[#3BDDD3] px-7 text-sm font-extrabold text-[#073a66] transition hover:-translate-y-0.5 hover:bg-[#58e7de]">
-            Request demo
-          </Link>
-        </div>
-        <Link href="/book-shipment" className="hidden h-11 items-center rounded-lg bg-[#3BDDD3] px-5 text-sm font-extrabold text-[#073a66] sm:inline-flex lg:hidden">
-          Book now
-        </Link>
-        <button
-          type="button"
-          aria-label="Open navigation"
-          aria-expanded={mobileNavOpen}
-          onClick={() => setMobileNavOpen((open) => !open)}
-          className="grid h-11 w-11 place-items-center rounded-lg border border-white/30 sm:hidden"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
-      </header>
-      <AnimatePresence>
-        {mobileNavOpen && (
-          <motion.nav
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute inset-x-4 top-[105px] z-30 rounded-2xl border border-white/20 bg-[#133e9f]/95 p-3 shadow-2xl backdrop-blur-xl sm:hidden"
-            aria-label="Mobile homepage navigation"
-          >
-            {navigation.map(([label, href]) => (
-              <Link key={label} href={href} onClick={() => setMobileNavOpen(false)} className="block rounded-xl px-4 py-3 text-sm font-bold text-white hover:bg-white/10">
-                {label}
-              </Link>
-            ))}
-            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-white/15 pt-3">
-              <Link href="/dashboard-login" onClick={() => setMobileNavOpen(false)} className="grid h-11 place-items-center rounded-xl border border-white/25 text-sm font-bold text-white">Log in</Link>
-              <Link href="/book-shipment" onClick={() => setMobileNavOpen(false)} className="grid h-11 place-items-center rounded-xl bg-[#3BDDD3] text-sm font-extrabold text-[#073a66]">Book now</Link>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
-
-      <div className="relative z-10 mx-auto flex min-h-[638px] max-w-[1500px] items-center justify-center px-5 pb-28 pt-14 text-center md:min-h-[818px] md:pb-44 md:pt-20">
+      <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1500px] items-center justify-center px-5 pb-28 pt-14 text-center md:min-h-[940px] md:pb-44 md:pt-20">
         <div className="max-w-[1120px]">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}

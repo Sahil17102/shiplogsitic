@@ -20,19 +20,17 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  if (pathname === "/") return null;
-
   return (
     <header className="sticky top-0 z-50 px-3 pt-3">
       <div className="page-shell glass flex h-[72px] items-center justify-between rounded-[22px] px-4 md:px-5">
         <Brand />
-        <nav className="hidden items-center gap-2 lg:flex" aria-label="Primary navigation">
+        <nav className="hidden items-center gap-0 md:flex xl:gap-2" aria-label="Primary navigation">
           {primary.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "rounded-full px-3.5 py-2 text-sm font-semibold transition hover:bg-white hover:text-[#6747f5]",
+                "rounded-full px-2.5 py-2 text-[13px] font-semibold transition hover:bg-white hover:text-[#6747f5] xl:px-3.5 xl:text-sm",
                 pathname === item.href ? "text-[#6747f5]" : "text-[#3f3f46]",
               )}
             >
