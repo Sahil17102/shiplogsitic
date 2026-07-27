@@ -53,6 +53,22 @@ const technologyPages = new Set([
 ]);
 
 function getHeroVisual(slug: string, pageName: string) {
+  if (slug === "courier-calculator" || slug === "rate-calculator") {
+    return {
+      src: "/shipray-rate-calculator-hero.png",
+      alt: `${pageName} manager comparing courier rates in a Shipray dispatch hub`,
+      objectPosition: "50% center",
+    };
+  }
+
+  if (slug === "weight-calculator") {
+    return {
+      src: "/shipray-weight-calculator-hero.png",
+      alt: `${pageName} specialist measuring and weighing a customer parcel`,
+      objectPosition: "50% center",
+    };
+  }
+
   if (fulfilmentPages.has(slug)) {
     return {
       src: "/ecommerce-fulfillment-team.png",
