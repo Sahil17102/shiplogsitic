@@ -61,7 +61,7 @@ export function LogisticsBackbone() {
       };
 
       const origin = new THREE.Vector3(0, -4.92, 0);
-      const routeCount = 360;
+      const routeCount = 420;
       const routes = Array.from({ length: routeCount }, () => {
         const angle = .08 + random() * (Math.PI - .16);
         const radius = 5.2 + random() * 3.85;
@@ -296,15 +296,15 @@ export function LogisticsBackbone() {
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="relative h-[500px] overflow-hidden md:h-[620px]">
-          <div className={nightMode ? "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_104%,rgba(255,253,248,.98)_0%,rgba(255,198,216,.9)_15%,rgba(255,211,165,.76)_31%,rgba(230,168,255,.6)_52%,rgba(192,132,252,.38)_69%,rgba(139,92,246,.14)_82%,transparent_94%),radial-gradient(circle_at_15%_30%,rgba(255,244,229,.78),transparent_45%),radial-gradient(circle_at_86%_35%,rgba(248,180,217,.58),transparent_44%),linear-gradient(180deg,#FFFDF8_0%,#FFF4E5_18%,#FFE8C2_36%,#FFD3A5_53%,#FFC6D8_68%,#E6A8FF_82%,#8B5CF6_94%,#5B4FE9_100%)]" : "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_104%,rgba(255,255,255,.98)_0%,rgba(255,201,221,.88)_17%,rgba(255,221,182,.72)_34%,rgba(231,197,255,.58)_54%,rgba(207,174,255,.34)_72%,transparent_93%),radial-gradient(circle_at_18%_24%,rgba(255,253,248,.88),transparent_42%),radial-gradient(circle_at_82%_32%,rgba(255,156,207,.46),transparent_46%),linear-gradient(180deg,#FFFDF8_0%,#FFF4E5_22%,#FFE8C2_42%,#FFD3A5_60%,#F8B4D9_76%,#C084FC_91%,#5B4FE9_100%)]"} />
-          <canvas ref={canvasRef} className="absolute inset-0 h-full w-full cursor-crosshair touch-none" aria-hidden="true" data-engine="three.js" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#fff4e5]/35 to-transparent" />
-          <button onClick={() => setNightMode((mode) => !mode)} type="button" aria-label={nightMode ? "Night. Switch to day" : "Day. Switch to night"} className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-md border border-white/40 bg-transparent text-white transition hover:bg-white/10 md:right-8 md:top-8">
-            <TimeOfDayIcon night={nightMode} />
-          </button>
-        </div>
+      <div className="relative isolate h-[100svh] min-h-[560px] max-h-[760px] w-full overflow-hidden border-y border-white/15">
+        <div className={nightMode ? "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_104%,rgba(255,253,248,.98)_0%,rgba(255,198,216,.9)_15%,rgba(255,211,165,.76)_31%,rgba(230,168,255,.6)_52%,rgba(192,132,252,.38)_69%,rgba(139,92,246,.14)_82%,transparent_94%),radial-gradient(circle_at_15%_30%,rgba(255,244,229,.78),transparent_45%),radial-gradient(circle_at_86%_35%,rgba(248,180,217,.58),transparent_44%),linear-gradient(180deg,#FFFDF8_0%,#FFF4E5_18%,#FFE8C2_36%,#FFD3A5_53%,#FFC6D8_68%,#E6A8FF_82%,#8B5CF6_94%,#5B4FE9_100%)]" : "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_104%,rgba(255,255,255,.98)_0%,rgba(255,201,221,.88)_17%,rgba(255,221,182,.72)_34%,rgba(231,197,255,.58)_54%,rgba(207,174,255,.34)_72%,transparent_93%),radial-gradient(circle_at_18%_24%,rgba(255,253,248,.88),transparent_42%),radial-gradient(circle_at_82%_32%,rgba(255,156,207,.46),transparent_46%),linear-gradient(180deg,#FFFDF8_0%,#FFF4E5_22%,#FFE8C2_42%,#FFD3A5_60%,#F8B4D9_76%,#C084FC_91%,#5B4FE9_100%)]"} />
+        <canvas ref={canvasRef} className="absolute inset-0 z-10 h-full w-full cursor-crosshair touch-none" aria-hidden="true" data-engine="three.js" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-[#fff4e5]/35 to-transparent" />
+        <button onClick={() => setNightMode((mode) => !mode)} type="button" aria-label={nightMode ? "Night. Switch to day" : "Day. Switch to night"} className="absolute right-5 top-5 z-20 grid h-12 w-12 place-items-center rounded-lg border border-white/45 bg-white/5 text-white backdrop-blur-sm transition hover:bg-white/15 md:right-9 md:top-8">
+          <TimeOfDayIcon night={nightMode} />
+        </button>
       </div>
     </section>
   );
