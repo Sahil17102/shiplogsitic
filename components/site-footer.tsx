@@ -16,8 +16,8 @@ const footerColumns = [
   {
     title: "Resources",
     links: [
-      ["Track a shipment", "/shipment-tracking"],
-      ["Instant rate calculator", "/courier-calculator"],
+      ["Track a shipment", "/tracking"],
+      ["Instant rate calculator", "/rate-calculator"],
       ["Book a shipment", "/book-shipment"],
       ["Developer APIs", "/api-integration"],
       ["Blog", "/blog"],

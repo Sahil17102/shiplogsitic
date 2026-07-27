@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
 const primary = [
   { name: "Home", href: "/" },
   { name: "Weight Calculator", href: "/weight-calculator" },
-  { name: "Rate Calculator", href: "/courier-calculator" },
-  { name: "Track Order", href: "/shipment-tracking" },
+  { name: "Rate Calculator", href: "/rate-calculator" },
+  { name: "Track Order", href: "/tracking" },
 ];
 
 export function SiteHeader() {
@@ -40,7 +40,7 @@ export function SiteHeader() {
         </nav>
         <div className="hidden items-center md:flex">
           <Button asChild variant="blue" size="sm" className="bg-[linear-gradient(135deg,#6d5dfc,#7047ec)] px-6 shadow-[0_12px_28px_rgba(109,93,252,.25)] hover:bg-[#6047ed]">
-            <Link href="/courier-calculator">Calculate rate</Link>
+            <Link href="/rate-calculator">Calculate rate</Link>
           </Button>
         </div>
         <button
@@ -75,7 +75,7 @@ export function SiteHeader() {
             ))}
             <div className="mt-2 border-t border-line pt-3">
               <Button asChild variant="blue" className="w-full bg-[linear-gradient(135deg,#6d5dfc,#7047ec)]">
-                <Link href="/courier-calculator" onClick={() => setOpen(false)}>Calculate rate</Link>
+                <Link href="/rate-calculator" onClick={() => setOpen(false)}>Calculate rate</Link>
               </Button>
             </div>
           </motion.div>

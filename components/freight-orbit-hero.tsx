@@ -112,7 +112,7 @@ export function FreightOrbitHero() {
             transition={{ duration: .7, delay: .2 }}
             className="mt-10 flex flex-col justify-center gap-4 sm:flex-row"
           >
-            <Link href="/courier-calculator" className="inline-flex h-[60px] items-center justify-center gap-2 rounded-xl bg-[#39DED4] px-9 text-[16px] font-extrabold text-[#07375c] transition hover:-translate-y-0.5 hover:bg-[#59e8df]">
+            <Link href="/rate-calculator" className="inline-flex h-[60px] items-center justify-center gap-2 rounded-xl bg-[#39DED4] px-9 text-[16px] font-extrabold text-[#07375c] transition hover:-translate-y-0.5 hover:bg-[#59e8df]">
               Compare shipping rates <ArrowRight className="h-4 w-4" />
             </Link>
             <Link href="/book-shipment" className="inline-flex h-[60px] items-center justify-center gap-2 rounded-xl border-2 border-white bg-white/5 px-9 text-[16px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-white hover:text-[#194cbd]">

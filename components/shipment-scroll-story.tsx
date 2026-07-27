@@ -49,7 +49,7 @@ const chapters = [
       "Documents and tracking IDs stay linked to every order",
     ],
     cta: "See live tracking",
-    href: "/shipment-tracking",
+    href: "/tracking",
     icon: BrainCircuit,
   },
   {

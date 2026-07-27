@@ -32,6 +32,7 @@ const fulfilmentPages = new Set([
   "book-shipment",
   "weight-calculator",
   "courier-calculator",
+  "rate-calculator",
   "pricing",
 ]);
 
@@ -47,6 +48,7 @@ const technologyPages = new Set([
   "api-integration",
   "dashboard-login",
   "shipment-tracking",
+  "tracking",
   "blog",
 ]);
 
@@ -87,7 +89,7 @@ function PageForm({ slug }: { slug: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const submit = (e: React.FormEvent) => { e.preventDefault(); setDone(true); };
 
-  if (slug === "shipment-tracking") {
+  if (slug === "shipment-tracking" || slug === "tracking") {
     return (
       <form onSubmit={submit} className="rounded-[28px] border border-line bg-white p-5 shadow-card md:p-7">
         <Label>Shipment number</Label>
@@ -100,7 +102,7 @@ function PageForm({ slug }: { slug: string }) {
     );
   }
 
-  if (slug === "courier-calculator") {
+  if (slug === "courier-calculator" || slug === "rate-calculator") {
     return (
       <form onSubmit={submit} className="grid gap-4 rounded-[28px] border border-line bg-white p-5 shadow-card sm:grid-cols-2 md:p-7">
         <div><Label>Pickup pin code</Label><input className={fieldClass} placeholder="110001" required /></div>

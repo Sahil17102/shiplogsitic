@@ -72,7 +72,7 @@ export function ScrollRouteHero() {
     const query = new URLSearchParams();
     if (pickupPin.trim()) query.set("pickup", pickupPin.trim());
     if (deliveryPin.trim()) query.set("delivery", deliveryPin.trim());
-    router.push(`/courier-calculator${query.size ? `?${query.toString()}` : ""}`);
+    router.push(`/rate-calculator${query.size ? `?${query.toString()}` : ""}`);
   };
 
   return (
