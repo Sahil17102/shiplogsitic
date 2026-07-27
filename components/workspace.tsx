@@ -49,12 +49,21 @@ export function Workspace({ admin = false }: { admin?: boolean }) {
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState("Overview");
   const [accessReady, setAccessReady] = useState(admin);
+  const [profile, setProfile] = useState<{ fullName: string; companyName: string } | null>(null);
   const nav = admin ? adminNav : userNav;
   const bars = [38, 55, 49, 72, 66, 83, 61, 91, 76, 97, 88, 106];
 
   useEffect(() => {
     if (admin) return;
-    if (window.sessionStorage.getItem("shipray-demo-auth") === "true") {
+    const sessionActive = window.sessionStorage.getItem("shipray-user-auth") === "true";
+    const remembered = window.localStorage.getItem("shipray-remember-auth") === "true";
+    if (sessionActive || remembered) {
+      try {
+        const savedProfile = window.localStorage.getItem("shipray-current-user");
+        if (savedProfile) setProfile(JSON.parse(savedProfile));
+      } catch {
+        setProfile(null);
+      }
       setAccessReady(true);
       return;
     }
@@ -62,10 +71,20 @@ export function Workspace({ admin = false }: { admin?: boolean }) {
   }, [admin, router]);
 
   const signOut = () => {
-    window.sessionStorage.removeItem("shipray-demo-auth");
-    window.sessionStorage.removeItem("shipray-demo-user");
+    window.sessionStorage.removeItem("shipray-user-auth");
+    window.localStorage.removeItem("shipray-remember-auth");
+    window.localStorage.removeItem("shipray-current-user");
     router.replace("/dashboard-login");
   };
+
+  const displayName = profile?.fullName?.trim() || "Shipray user";
+  const firstName = displayName.split(/\s+/)[0];
+  const initials = displayName
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
 
   if (!accessReady) {
     return (
@@ -110,13 +129,13 @@ export function Workspace({ admin = false }: { admin?: boolean }) {
             <div className="flex items-center gap-2">
               <label className="hidden h-10 items-center gap-2 rounded-xl border border-line bg-white px-3 md:flex"><Search className="h-3.5 w-3.5 text-muted" /><input className="w-36 text-xs outline-none" placeholder="Search shipments…" /></label>
               <button className="relative grid h-10 w-10 place-items-center rounded-xl border border-line bg-white" aria-label="Notifications"><Bell className="h-4 w-4" /><span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-blue" /></button>
-              <button className="flex h-10 items-center gap-2 rounded-xl border border-line bg-white px-2"><span className="grid h-7 w-7 place-items-center rounded-lg bg-ink text-[9px] font-black text-white">{admin ? "AD" : "AM"}</span><ChevronDown className="h-3.5 w-3.5 text-muted" /></button>
+              <button className="flex h-10 items-center gap-2 rounded-xl border border-line bg-white px-2"><span className="grid h-7 w-7 place-items-center rounded-lg bg-ink text-[9px] font-black text-white">{admin ? "AD" : initials}</span><ChevronDown className="h-3.5 w-3.5 text-muted" /></button>
             </div>
           </header>
 
           <div className="p-4 md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div><p className="text-xs text-muted">{admin ? "Sunday, 26 July" : "Welcome back, Aarav"}</p><h2 className="mt-1 text-2xl font-black tracking-[-0.04em]">{admin ? "Network command centre" : "Here’s what’s moving today."}</h2></div>
+              <div><p className="text-xs text-muted">{admin ? "Sunday, 26 July" : `Welcome back, ${firstName}${profile?.companyName ? ` · ${profile.companyName}` : ""}`}</p><h2 className="mt-1 text-2xl font-black tracking-[-0.04em]">{admin ? "Network command centre" : "Here’s what’s moving today."}</h2></div>
               <button className="h-11 rounded-full bg-blue px-5 text-xs font-black text-white shadow-lg shadow-blue/20">{admin ? "Export report" : "+ Create shipment"}</button>
             </div>
 

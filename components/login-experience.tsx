@@ -1,30 +1,92 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
   Barcode,
+  Building2,
   CheckCircle2,
   Clock3,
   Eye,
   EyeOff,
-  KeyRound,
+  Home,
   LockKeyhole,
+  Mail,
   MapPin,
   Package,
+  Phone,
   Route,
   ScanLine,
   ShieldCheck,
   Truck,
+  UserPlus,
   Zap,
 } from "lucide-react";
 import { Button, fieldClass, Label } from "./ui";
 
-const DEMO_EMAIL = "demo@shipray.in";
-const DEMO_CODE = "SHIPRAY2026";
+const ACCOUNTS_KEY = "shipray-accounts-v1";
+const SESSION_AUTH_KEY = "shipray-user-auth";
+const REMEMBER_AUTH_KEY = "shipray-remember-auth";
+const CURRENT_USER_KEY = "shipray-current-user";
+
+type AuthView = "register" | "login";
+type AuthStage = "form" | "verify";
+
+interface StoredAccount {
+  id: string;
+  fullName: string;
+  email: string;
+  mobile: string;
+  companyName: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  passwordHash: string;
+  createdAt: string;
+}
+
+const emptyRegistration = {
+  fullName: "",
+  email: "",
+  mobile: "",
+  companyName: "",
+  address: "",
+  city: "",
+  state: "",
+  pincode: "",
+  password: "",
+  confirmPassword: "",
+  termsAccepted: false,
+};
+
+function readAccounts(): StoredAccount[] {
+  try {
+    const stored = window.localStorage.getItem(ACCOUNTS_KEY);
+    if (!stored) return [];
+    const parsed = JSON.parse(stored);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function hashPassword(password: string, email: string) {
+  const payload = new TextEncoder().encode(`shipray-local-v1:${email.toLowerCase()}:${password}`);
+  const digest = await window.crypto.subtle.digest("SHA-256", payload);
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function createVerificationCode() {
+  const randomValue = new Uint32Array(1);
+  window.crypto.getRandomValues(randomValue);
+  return String(100000 + (randomValue[0] % 900000));
+}
 
 function CourierLoginVisual() {
   const cubeFaces = [
@@ -194,32 +256,185 @@ function CourierLoginVisual() {
 
 export function LoginExperience() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [accessCode, setAccessCode] = useState("");
-  const [showCode, setShowCode] = useState(false);
+  const [view, setView] = useState<AuthView>("register");
+  const [stage, setStage] = useState<AuthStage>("form");
+  const [registration, setRegistration] = useState(emptyRegistration);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [enteredCode, setEnteredCode] = useState("");
+  const [pendingAccount, setPendingAccount] = useState<StoredAccount | null>(null);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [opening, setOpening] = useState(false);
 
-  const useDemoAccess = () => {
-    setEmail(DEMO_EMAIL);
-    setAccessCode(DEMO_CODE);
+  useEffect(() => {
+    const accounts = readAccounts();
+    if (accounts.length > 0) {
+      setView("login");
+      setLoginEmail(accounts[0].email);
+    }
+  }, []);
+
+  const switchView = (nextView: AuthView) => {
+    setView(nextView);
+    setStage("form");
     setError("");
+    setSuccess("");
+    setEnteredCode("");
+    setVerificationCode("");
+    setPendingAccount(null);
+    if (nextView === "login") {
+      const accounts = readAccounts();
+      if (!loginEmail && accounts[0]) setLoginEmail(accounts[0].email);
+    }
   };
 
-  const submitLogin = (event: FormEvent<HTMLFormElement>) => {
+  const submitRegistration = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const credentialsMatch =
-      email.trim().toLowerCase() === DEMO_EMAIL &&
-      accessCode.trim().toUpperCase() === DEMO_CODE;
+    setError("");
+    setSuccess("");
 
-    if (!credentialsMatch) {
-      setError("Email or access code does not match the demo credentials shown above.");
+    const cleanEmail = registration.email.trim().toLowerCase();
+    const cleanMobile = registration.mobile.replace(/\D/g, "");
+    const cleanPincode = registration.pincode.replace(/\D/g, "");
+
+    if (registration.fullName.trim().length < 3) {
+      setError("Please enter your full name.");
+      return;
+    }
+    if (cleanMobile.length !== 10) {
+      setError("Enter a valid 10-digit mobile number.");
+      return;
+    }
+    if (cleanPincode.length !== 6) {
+      setError("Enter a valid 6-digit PIN code.");
+      return;
+    }
+    if (
+      registration.password.length < 8 ||
+      !/[A-Z]/.test(registration.password) ||
+      !/[a-z]/.test(registration.password) ||
+      !/\d/.test(registration.password)
+    ) {
+      setError("Password must be at least 8 characters and include uppercase, lowercase and a number.");
+      return;
+    }
+    if (registration.password !== registration.confirmPassword) {
+      setError("Password and confirm password do not match.");
+      return;
+    }
+    if (!registration.termsAccepted) {
+      setError("Please accept the terms and privacy notice to continue.");
+      return;
+    }
+
+    const accounts = readAccounts();
+    if (accounts.some((account) => account.email === cleanEmail)) {
+      setLoginEmail(cleanEmail);
+      switchView("login");
+      setError("An account with this email already exists. Log in with your password.");
       return;
     }
 
     setOpening(true);
-    window.sessionStorage.setItem("shipray-demo-auth", "true");
-    window.sessionStorage.setItem("shipray-demo-user", DEMO_EMAIL);
+    const passwordHash = await hashPassword(registration.password, cleanEmail);
+    const account: StoredAccount = {
+      id: window.crypto.randomUUID(),
+      fullName: registration.fullName.trim(),
+      email: cleanEmail,
+      mobile: cleanMobile,
+      companyName: registration.companyName.trim(),
+      address: registration.address.trim(),
+      city: registration.city.trim(),
+      state: registration.state.trim(),
+      pincode: cleanPincode,
+      passwordHash,
+      createdAt: new Date().toISOString(),
+    };
+
+    setPendingAccount(account);
+    setVerificationCode(createVerificationCode());
+    setEnteredCode("");
+    setStage("verify");
+    setOpening(false);
+  };
+
+  const submitLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+    setSuccess("");
+    const cleanEmail = loginEmail.trim().toLowerCase();
+    const account = readAccounts().find((item) => item.email === cleanEmail);
+
+    if (!account) {
+      setError("No Shipray account was found for this email. Please register first.");
+      return;
+    }
+
+    setOpening(true);
+    const passwordHash = await hashPassword(loginPassword, cleanEmail);
+    if (passwordHash !== account.passwordHash) {
+      setOpening(false);
+      setError("The password you entered is incorrect.");
+      return;
+    }
+
+    setPendingAccount(account);
+    setVerificationCode(createVerificationCode());
+    setEnteredCode("");
+    setStage("verify");
+    setOpening(false);
+  };
+
+  const verifyCode = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+
+    if (enteredCode.trim() !== verificationCode) {
+      setError("Verification code is incorrect. Use the code shown on this screen.");
+      return;
+    }
+    if (!pendingAccount) {
+      setStage("form");
+      setError("Your verification session expired. Please try again.");
+      return;
+    }
+
+    if (view === "register") {
+      const accounts = readAccounts();
+      window.localStorage.setItem(
+        ACCOUNTS_KEY,
+        JSON.stringify([...accounts.filter((account) => account.email !== pendingAccount.email), pendingAccount]),
+      );
+      setLoginEmail(pendingAccount.email);
+      setLoginPassword("");
+      setRegistration(emptyRegistration);
+      setPendingAccount(null);
+      setStage("form");
+      setView("login");
+      setSuccess("Account created successfully. Log in using your email and password.");
+      return;
+    }
+
+    setOpening(true);
+    window.sessionStorage.setItem(SESSION_AUTH_KEY, "true");
+    window.localStorage.setItem(
+      CURRENT_USER_KEY,
+      JSON.stringify({
+        id: pendingAccount.id,
+        fullName: pendingAccount.fullName,
+        email: pendingAccount.email,
+        companyName: pendingAccount.companyName,
+      }),
+    );
+    if (rememberMe) {
+      window.localStorage.setItem(REMEMBER_AUTH_KEY, "true");
+    } else {
+      window.localStorage.removeItem(REMEMBER_AUTH_KEY);
+    }
     router.push("/dashboard");
   };
 
@@ -236,75 +451,198 @@ export function LoginExperience() {
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[.15em] text-cyan-100">
               <ShieldCheck className="h-4 w-4" /> Secure workspace access
             </div>
-            <h1 className="mt-5 max-w-xl text-balance text-4xl font-black leading-[.98] tracking-[-.055em] md:text-5xl">Your courier control tower starts here.</h1>
-            <p className="mt-4 max-w-lg text-sm leading-6 text-white/70">Sign in to move from booking and live scans to invoices, exceptions and delivery performance.</p>
+            <h1 className="mt-5 max-w-xl text-balance text-4xl font-black leading-[.98] tracking-[-.055em] md:text-5xl">
+              Your courier control tower starts here.
+            </h1>
+            <p className="mt-4 max-w-lg text-sm leading-6 text-white/70">
+              Create your business account, verify access and manage every shipment from one secure workspace.
+            </p>
             <CourierLoginVisual />
           </div>
         </div>
 
-        <form onSubmit={submitLogin} className="rounded-[34px] border border-blue/10 bg-white p-6 shadow-[0_28px_80px_rgba(31,68,139,.14)] md:p-8">
+        <div className="rounded-[34px] border border-blue/10 bg-white p-6 shadow-[0_28px_80px_rgba(31,68,139,.14)] md:p-8">
           <div className="flex items-start justify-between gap-5">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-sky text-blue"><LockKeyhole className="h-5 w-5" /></div>
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-sky text-blue">
+              {view === "register" ? <UserPlus className="h-5 w-5" /> : <LockKeyhole className="h-5 w-5" />}
+            </div>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-[9px] font-black uppercase tracking-[.1em] text-emerald-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Demo active
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Secure access
             </span>
           </div>
-          <h2 className="mt-5 text-3xl font-black tracking-[-.045em] text-ink">Sign in to Shipray</h2>
-          <p className="mt-2 text-sm leading-6 text-muted">Use the demo credentials to open the courier operations dashboard.</p>
 
-          <div className="mt-5 rounded-2xl border border-blue/10 bg-[#edf5ff] p-4">
-            <div className="flex items-center justify-between gap-4">
-              <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[.13em] text-blue"><KeyRound className="h-4 w-4" /> Demo login</p>
-              <button type="button" onClick={useDemoAccess} className="text-[10px] font-black text-blue hover:underline">Use credentials</button>
-            </div>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              <div className="rounded-xl bg-white px-3 py-2.5"><p className="text-[9px] font-bold uppercase tracking-[.1em] text-muted">Email</p><code className="mt-1 block text-xs font-black text-ink">{DEMO_EMAIL}</code></div>
-              <div className="rounded-xl bg-white px-3 py-2.5"><p className="text-[9px] font-bold uppercase tracking-[.1em] text-muted">Access code</p><code className="mt-1 block text-xs font-black text-ink">{DEMO_CODE}</code></div>
-            </div>
+          <div className="mt-5 grid grid-cols-2 rounded-2xl bg-[#edf5ff] p-1.5">
+            <button
+              type="button"
+              onClick={() => switchView("register")}
+              className={`rounded-xl px-4 py-3 text-xs font-black transition ${
+                view === "register" ? "bg-white text-blue shadow-sm" : "text-muted hover:text-blue"
+              }`}
+            >
+              Register
+            </button>
+            <button
+              type="button"
+              onClick={() => switchView("login")}
+              className={`rounded-xl px-4 py-3 text-xs font-black transition ${
+                view === "login" ? "bg-white text-blue shadow-sm" : "text-muted hover:text-blue"
+              }`}
+            >
+              Log in
+            </button>
           </div>
 
-          <div className="mt-5">
-            <Label>Work email</Label>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className={fieldClass}
-              placeholder="demo@shipray.in"
-              autoComplete="email"
-              required
-            />
-          </div>
-          <div className="mt-4">
-            <Label>Access code</Label>
-            <div className="relative">
-              <input
-                type={showCode ? "text" : "password"}
-                value={accessCode}
-                onChange={(event) => setAccessCode(event.target.value)}
-                className={`${fieldClass} pr-12`}
-                placeholder="Enter access code"
-                autoComplete="current-password"
-                required
-              />
-              <button type="button" onClick={() => setShowCode(!showCode)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted" aria-label={showCode ? "Hide access code" : "Show access code"}>
-                {showCode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          {stage === "verify" ? (
+            <form onSubmit={verifyCode}>
+              <h2 className="mt-6 text-3xl font-black tracking-[-.045em] text-ink">
+                {view === "register" ? "Verify your registration" : "Verify your login"}
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                Enter the six-digit code shown below to {view === "register" ? "create your account" : "open your dashboard"}.
+              </p>
+
+              <div className="mt-5 rounded-[22px] border border-blue/15 bg-[linear-gradient(135deg,#edf5ff,#f3f0ff)] p-5 text-center">
+                <p className="text-[10px] font-black uppercase tracking-[.16em] text-blue">Your on-screen verification code</p>
+                <div className="mt-4 flex justify-center gap-2">
+                  {verificationCode.split("").map((digit, index) => (
+                    <span key={`${digit}-${index}`} className="grid h-11 w-10 place-items-center rounded-xl bg-white text-xl font-black text-ink shadow-sm">
+                      {digit}
+                    </span>
+                  ))}
+                </div>
+                <button type="button" onClick={() => setEnteredCode(verificationCode)} className="mt-4 text-[10px] font-black text-blue hover:underline">
+                  Use this code
+                </button>
+              </div>
+
+              <div className="mt-5">
+                <Label>Verification code</Label>
+                <input
+                  value={enteredCode}
+                  onChange={(event) => setEnteredCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
+                  className={`${fieldClass} text-center text-lg font-black tracking-[.35em]`}
+                  placeholder="000000"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  required
+                />
+              </div>
+
+              {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-700">{error}</div>}
+
+              <Button variant="blue" className="mt-5 w-full" disabled={opening}>
+                {opening ? "Opening dashboard…" : view === "register" ? "Verify & create account" : "Verify & open dashboard"}
+                {!opening && <ArrowRight className="h-4 w-4" />}
+              </Button>
+              <button type="button" onClick={() => { setStage("form"); setError(""); }} className="mt-4 w-full text-center text-xs font-black text-muted hover:text-blue">
+                ← Back to {view}
               </button>
-            </div>
-          </div>
+            </form>
+          ) : view === "register" ? (
+            <form onSubmit={submitRegistration}>
+              <h2 className="mt-6 text-3xl font-black tracking-[-.045em] text-ink">Create your Shipray account</h2>
+              <p className="mt-2 text-sm leading-6 text-muted">Add your business details and set a password for future logins.</p>
 
-          <div className="mt-4 flex items-center justify-between gap-4 text-xs">
-            <label className="flex items-center gap-2 font-semibold text-muted"><input type="checkbox" defaultChecked /> Keep me signed in</label>
-            <Link href="/contact" className="font-black text-blue hover:underline">Need help?</Link>
-          </div>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <Label><span className="flex items-center gap-2"><UserPlus className="h-3.5 w-3.5" /> Full name</span></Label>
+                  <input value={registration.fullName} onChange={(event) => setRegistration({ ...registration, fullName: event.target.value })} className={fieldClass} placeholder="Your full name" autoComplete="name" required />
+                </div>
+                <div>
+                  <Label><span className="flex items-center gap-2"><Mail className="h-3.5 w-3.5" /> Work email</span></Label>
+                  <input type="email" value={registration.email} onChange={(event) => setRegistration({ ...registration, email: event.target.value })} className={fieldClass} placeholder="you@company.com" autoComplete="email" required />
+                </div>
+                <div>
+                  <Label><span className="flex items-center gap-2"><Phone className="h-3.5 w-3.5" /> Mobile number</span></Label>
+                  <input type="tel" value={registration.mobile} onChange={(event) => setRegistration({ ...registration, mobile: event.target.value })} className={fieldClass} placeholder="10-digit number" autoComplete="tel" required />
+                </div>
+                <div className="sm:col-span-2">
+                  <Label><span className="flex items-center gap-2"><Building2 className="h-3.5 w-3.5" /> Company name</span></Label>
+                  <input value={registration.companyName} onChange={(event) => setRegistration({ ...registration, companyName: event.target.value })} className={fieldClass} placeholder="Your company or store name" autoComplete="organization" required />
+                </div>
+                <div className="sm:col-span-2">
+                  <Label><span className="flex items-center gap-2"><Home className="h-3.5 w-3.5" /> Pickup address</span></Label>
+                  <input value={registration.address} onChange={(event) => setRegistration({ ...registration, address: event.target.value })} className={fieldClass} placeholder="Building, street and area" autoComplete="street-address" required />
+                </div>
+                <div>
+                  <Label>City</Label>
+                  <input value={registration.city} onChange={(event) => setRegistration({ ...registration, city: event.target.value })} className={fieldClass} placeholder="City" autoComplete="address-level2" required />
+                </div>
+                <div>
+                  <Label>State</Label>
+                  <input value={registration.state} onChange={(event) => setRegistration({ ...registration, state: event.target.value })} className={fieldClass} placeholder="State" autoComplete="address-level1" required />
+                </div>
+                <div className="sm:col-span-2">
+                  <Label>PIN code</Label>
+                  <input value={registration.pincode} onChange={(event) => setRegistration({ ...registration, pincode: event.target.value.replace(/\D/g, "").slice(0, 6) })} className={fieldClass} placeholder="6-digit PIN code" inputMode="numeric" autoComplete="postal-code" required />
+                </div>
+                <div>
+                  <Label>Set password</Label>
+                  <div className="relative">
+                    <input type={showPassword ? "text" : "password"} value={registration.password} onChange={(event) => setRegistration({ ...registration, password: event.target.value })} className={`${fieldClass} pr-12`} placeholder="Minimum 8 characters" autoComplete="new-password" required />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted" aria-label={showPassword ? "Hide password" : "Show password"}>
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <Label>Confirm password</Label>
+                  <input type={showPassword ? "text" : "password"} value={registration.confirmPassword} onChange={(event) => setRegistration({ ...registration, confirmPassword: event.target.value })} className={fieldClass} placeholder="Repeat password" autoComplete="new-password" required />
+                </div>
+              </div>
 
-          {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-700">{error}</div>}
+              <p className="mt-3 text-[10px] leading-5 text-muted">Use 8+ characters with uppercase, lowercase and a number.</p>
+              <label className="mt-4 flex items-start gap-2 text-xs font-semibold leading-5 text-muted">
+                <input type="checkbox" checked={registration.termsAccepted} onChange={(event) => setRegistration({ ...registration, termsAccepted: event.target.checked })} className="mt-1" />
+                I agree to the terms of service and privacy notice.
+              </label>
 
-          <Button variant="blue" className="mt-5 w-full" disabled={opening}>
-            {opening ? "Opening dashboard…" : "Open logistics dashboard"} {!opening && <ArrowRight className="h-4 w-4" />}
-          </Button>
-          <p className="mt-4 flex items-center justify-center gap-2 text-center text-[10px] text-muted"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> Demo access only—no real customer data is used.</p>
-        </form>
+              {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-700">{error}</div>}
+
+              <Button variant="blue" className="mt-5 w-full" disabled={opening}>
+                {opening ? "Preparing verification…" : "Continue to verification"} {!opening && <ArrowRight className="h-4 w-4" />}
+              </Button>
+              <p className="mt-4 text-center text-xs text-muted">Already registered? <button type="button" onClick={() => switchView("login")} className="font-black text-blue hover:underline">Log in</button></p>
+            </form>
+          ) : (
+            <form onSubmit={submitLogin}>
+              <h2 className="mt-6 text-3xl font-black tracking-[-.045em] text-ink">Welcome back</h2>
+              <p className="mt-2 text-sm leading-6 text-muted">Log in with the email and password you created during registration.</p>
+
+              {success && <div role="status" className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-bold leading-5 text-emerald-700">{success}</div>}
+
+              <div className="mt-5">
+                <Label>Work email</Label>
+                <input type="email" value={loginEmail} onChange={(event) => setLoginEmail(event.target.value)} className={fieldClass} placeholder="you@company.com" autoComplete="email" required />
+              </div>
+              <div className="mt-4">
+                <Label>Password</Label>
+                <div className="relative">
+                  <input type={showPassword ? "text" : "password"} value={loginPassword} onChange={(event) => setLoginPassword(event.target.value)} className={`${fieldClass} pr-12`} placeholder="Enter your password" autoComplete="current-password" required />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted" aria-label={showPassword ? "Hide password" : "Show password"}>
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between gap-4 text-xs">
+                <label className="flex items-center gap-2 font-semibold text-muted"><input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} /> Keep me signed in</label>
+                <Link href="/contact" className="font-black text-blue hover:underline">Forgot password?</Link>
+              </div>
+
+              {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-700">{error}</div>}
+
+              <Button variant="blue" className="mt-5 w-full" disabled={opening}>
+                {opening ? "Checking password…" : "Log in with password"} {!opening && <ArrowRight className="h-4 w-4" />}
+              </Button>
+              <p className="mt-4 text-center text-xs text-muted">New to Shipray? <button type="button" onClick={() => switchView("register")} className="font-black text-blue hover:underline">Create account</button></p>
+            </form>
+          )}
+
+          <p className="mt-5 flex items-center justify-center gap-2 text-center text-[10px] text-muted">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> Passwords are hashed before being saved in this browser.
+          </p>
+        </div>
       </div>
     </section>
   );
