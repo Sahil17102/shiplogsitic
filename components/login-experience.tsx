@@ -6,17 +6,20 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  Barcode,
   CheckCircle2,
   Clock3,
   Eye,
   EyeOff,
   KeyRound,
   LockKeyhole,
+  MapPin,
   Package,
   Route,
   ScanLine,
   ShieldCheck,
   Truck,
+  Zap,
 } from "lucide-react";
 import { Button, fieldClass, Label } from "./ui";
 
@@ -25,74 +28,165 @@ const DEMO_CODE = "SHIPRAY2026";
 
 function CourierLoginVisual() {
   const cubeFaces = [
-    "translateZ(48px)",
-    "rotateY(180deg) translateZ(48px)",
-    "rotateY(90deg) translateZ(48px)",
-    "rotateY(-90deg) translateZ(48px)",
-    "rotateX(90deg) translateZ(48px)",
-    "rotateX(-90deg) translateZ(48px)",
+    { name: "front", transform: "translateZ(56px)" },
+    { name: "back", transform: "rotateY(180deg) translateZ(56px)" },
+    { name: "right", transform: "rotateY(90deg) translateZ(56px)" },
+    { name: "left", transform: "rotateY(-90deg) translateZ(56px)" },
+    { name: "top", transform: "rotateX(90deg) translateZ(56px)" },
+    { name: "bottom", transform: "rotateX(-90deg) translateZ(56px)" },
   ];
 
   return (
-    <div className="relative mt-8 h-[330px] overflow-hidden rounded-[28px] border border-white/15 bg-white/[.06]" style={{ perspective: "900px" }}>
-      <div className="grid-fade absolute inset-0 opacity-20" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(57,222,212,.22),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(167,134,239,.28),transparent_52%)]" />
+    <div
+      className="relative mt-8 h-[350px] overflow-hidden rounded-[28px] border border-white/15 bg-[#0c2f83]"
+      style={{ perspective: "1050px" }}
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(145deg,#0c2f83_0%,#164fc2_48%,#5267e6_100%)]" />
+      <div className="grid-fade absolute inset-0 opacity-25" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_43%,rgba(75,236,223,.3),transparent_27%),radial-gradient(circle_at_50%_110%,rgba(174,132,255,.38),transparent_48%)]" />
 
-      <div className="absolute left-1/2 top-[56%] h-44 w-[310px] rounded-[50%] border border-cyan-200/25" style={{ transform: "translate(-50%, -50%) rotateX(66deg)" }} />
-      <div className="absolute left-1/2 top-[56%] h-28 w-[220px] rounded-[50%] border border-white/15" style={{ transform: "translate(-50%, -50%) rotateX(66deg)" }} />
+      <svg
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full opacity-70"
+        viewBox="0 0 640 350"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="courier-route-gradient" x1="0" x2="1">
+            <stop offset="0" stopColor="#67e8f9" stopOpacity=".08" />
+            <stop offset=".5" stopColor="#a5f3fc" stopOpacity=".72" />
+            <stop offset="1" stopColor="#c4b5fd" stopOpacity=".08" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M58 269 C132 214 164 101 318 91 C473 81 507 213 584 264"
+          fill="none"
+          stroke="url(#courier-route-gradient)"
+          strokeDasharray="7 8"
+          strokeWidth="1.5"
+        />
+        <path
+          d="M73 289 C176 234 219 240 319 253 C428 267 502 260 570 285"
+          fill="none"
+          stroke="rgba(165,243,252,.18)"
+          strokeWidth="1"
+        />
+      </svg>
+
+      <div
+        aria-hidden="true"
+        className="absolute bottom-[-70px] left-1/2 h-[230px] w-[540px] -translate-x-1/2 rounded-[50%] border border-cyan-100/20 bg-[radial-gradient(ellipse,rgba(13,40,111,.08),rgba(4,20,70,.48)_68%,transparent_69%)]"
+        style={{ transform: "translateX(-50%) rotateX(68deg)" }}
+      >
+        <motion.div
+          animate={{ backgroundPositionX: ["0px", "76px"] }}
+          transition={{ duration: 1.4, ease: "linear", repeat: Infinity }}
+          className="absolute inset-7 rounded-[50%] border border-white/10 bg-[repeating-linear-gradient(90deg,transparent_0px,transparent_24px,rgba(165,243,252,.13)_25px,rgba(165,243,252,.13)_27px)]"
+        />
+      </div>
+
+      {[["left-[12%]", "top-[74%]"], ["left-1/2", "top-[26%]"], ["left-[88%]", "top-[74%]"]].map(
+        ([left, top], index) => (
+          <motion.div
+            key={left}
+            animate={{ scale: [1, 1.22, 1], opacity: [0.55, 1, 0.55] }}
+            transition={{ duration: 2.2, delay: index * 0.5, repeat: Infinity }}
+            className={`absolute ${left} ${top} z-10 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100/70 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,.9)]`}
+          />
+        ),
+      )}
 
       <motion.div
-        animate={{ x: [-142, 118, -142], y: [44, -32, 44] }}
-        transition={{ duration: 9, ease: "easeInOut", repeat: Infinity }}
-        className="absolute left-1/2 top-[54%] z-20 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#39ded4] text-[#07375c] shadow-[0_12px_30px_rgba(57,222,212,.3)]"
+        animate={{
+          x: [-225, -135, 0, 135, 225],
+          y: [92, 8, -66, 4, 90],
+          rotate: [0, -8, 0, 8, 0],
+        }}
+        transition={{ duration: 8.5, ease: "easeInOut", repeat: Infinity }}
+        className="absolute left-1/2 top-[48%] z-30 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl border border-white/35 bg-[#45e0d4] text-[#07375c] shadow-[0_10px_34px_rgba(57,222,212,.55)]"
       >
         <Truck className="h-5 w-5" />
       </motion.div>
 
       <motion.div
-        animate={{ y: [0, -13, 0] }}
-        transition={{ duration: 4.4, ease: "easeInOut", repeat: Infinity }}
-        className="absolute left-1/2 top-[44%] z-10 h-24 w-24 -translate-x-1/2 -translate-y-1/2"
+        animate={{ opacity: [0.35, 0.85, 0.35], scale: [0.94, 1.08, 0.94] }}
+        transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity }}
+        className="absolute left-1/2 top-[45%] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100/25 shadow-[0_0_52px_rgba(45,212,191,.22)]"
+      />
+
+      <motion.div
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 4.2, ease: "easeInOut", repeat: Infinity }}
+        className="absolute left-1/2 top-[45%] z-20 h-28 w-28 -translate-x-1/2 -translate-y-1/2"
         style={{ transformStyle: "preserve-3d" }}
       >
         <motion.div
-          animate={{ rotateX: [-12, 8, -12], rotateY: [0, 360] }}
-          transition={{ duration: 13, ease: "linear", repeat: Infinity }}
+          animate={{ rotateX: [-12, -6, -12], rotateY: [-32, 328] }}
+          transition={{ duration: 15, ease: "linear", repeat: Infinity }}
           className="relative h-full w-full"
           style={{ transformStyle: "preserve-3d" }}
         >
-          {cubeFaces.map((transform, index) => (
+          {cubeFaces.map((face, index) => (
             <div
-              key={transform}
-              className="absolute inset-0 grid place-items-center border border-cyan-100/45 bg-[#2766df]/90 shadow-[inset_0_0_26px_rgba(255,255,255,.12)] backdrop-blur-sm"
-              style={{ transform, backfaceVisibility: "visible" }}
+              key={face.name}
+              className="absolute inset-0 overflow-hidden border border-cyan-100/55 bg-[linear-gradient(145deg,rgba(45,126,244,.96),rgba(24,73,183,.94))] shadow-[inset_0_0_30px_rgba(255,255,255,.12)]"
+              style={{ transform: face.transform, backfaceVisibility: "visible" }}
             >
-              <Package className={`h-8 w-8 text-white ${index > 1 ? "opacity-50" : ""}`} />
+              <div className="absolute inset-y-0 left-1/2 w-5 -translate-x-1/2 border-x border-amber-100/20 bg-amber-200/20" />
+              {index < 2 && (
+                <div className="absolute left-3 top-4 rounded-lg border border-white/20 bg-white/90 p-2 text-[#143985] shadow-lg">
+                  <div className="flex items-center gap-1.5">
+                    <Package className="h-4 w-4" />
+                    <span className="text-[7px] font-black tracking-[.08em]">SHIPRAY</span>
+                  </div>
+                  <Barcode className="mt-1 h-4 w-12" />
+                  <span className="block text-[6px] font-bold">SR-287-41</span>
+                </div>
+              )}
+              {index > 1 && <Package className="absolute bottom-4 right-4 h-7 w-7 text-white/55" />}
             </div>
           ))}
         </motion.div>
       </motion.div>
 
       <motion.div
-        animate={{ y: [0, -8, 0] }}
+        animate={{ y: [-45, 52], opacity: [0, 0.85, 0.85, 0] }}
+        transition={{ duration: 2.8, ease: "easeInOut", repeat: Infinity }}
+        className="absolute left-1/2 top-[39%] z-30 h-px w-36 -translate-x-1/2 bg-cyan-100 shadow-[0_0_12px_3px_rgba(103,232,249,.75)]"
+      />
+
+      <motion.div
+        animate={{ y: [0, -7, 0] }}
         transition={{ duration: 4, delay: 0.5, repeat: Infinity }}
-        className="absolute left-4 top-5 rounded-2xl border border-white/15 bg-[#173f9f]/75 p-3 text-white shadow-xl backdrop-blur-xl sm:left-6"
+        className="absolute left-4 top-5 z-40 rounded-2xl border border-white/15 bg-[#09296c]/80 p-3 text-white shadow-xl backdrop-blur-xl sm:left-6"
       >
-        <div className="flex items-center gap-2 text-cyan-200"><ScanLine className="h-4 w-4" /><span className="text-[9px] font-black uppercase tracking-[.12em]">Live scan</span></div>
+        <div className="flex items-center gap-2 text-cyan-200">
+          <ScanLine className="h-4 w-4" />
+          <span className="text-[9px] font-black uppercase tracking-[.12em]">Live scan</span>
+        </div>
         <p className="mt-2 text-xs font-black">Sorting hub cleared</p>
+        <span className="mt-1 flex items-center gap-1 text-[8px] font-bold text-emerald-200">
+          <Zap className="h-2.5 w-2.5" /> 2.4 sec processing
+        </span>
       </motion.div>
 
       <motion.div
-        animate={{ y: [0, 8, 0] }}
+        animate={{ y: [0, 7, 0] }}
         transition={{ duration: 4.8, repeat: Infinity }}
-        className="absolute bottom-5 right-4 rounded-2xl border border-white/15 bg-[#173f9f]/75 p-3 text-white shadow-xl backdrop-blur-xl sm:right-6"
+        className="absolute bottom-5 right-4 z-40 rounded-2xl border border-white/15 bg-[#09296c]/80 p-3 text-white shadow-xl backdrop-blur-xl sm:right-6"
       >
-        <div className="flex items-center gap-2 text-cyan-200"><Clock3 className="h-4 w-4" /><span className="text-[9px] font-black uppercase tracking-[.12em]">Delivery ETA</span></div>
+        <div className="flex items-center gap-2 text-cyan-200">
+          <Clock3 className="h-4 w-4" />
+          <span className="text-[9px] font-black uppercase tracking-[.12em]">Delivery ETA</span>
+        </div>
         <p className="mt-2 text-xs font-black">Today, before 6 PM</p>
+        <span className="mt-1 flex items-center gap-1 text-[8px] font-bold text-white/55">
+          <MapPin className="h-2.5 w-2.5" /> 3 stops remaining
+        </span>
       </motion.div>
 
-      <div className="absolute bottom-5 left-5 flex items-center gap-2 text-[9px] font-black uppercase tracking-[.12em] text-white/45">
-        <Route className="h-4 w-4 text-cyan-200" /> Secure courier network
+      <div className="absolute bottom-5 left-5 z-40 hidden items-center gap-2 text-[9px] font-black uppercase tracking-[.12em] text-white/50 sm:flex">
+        <Route className="h-4 w-4 text-cyan-200" /> Live courier network
       </div>
     </div>
   );
