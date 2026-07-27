@@ -439,12 +439,12 @@ export function LoginExperience() {
   };
 
   return (
-    <section data-auth-page="true" className="relative min-h-[calc(100vh-88px)] overflow-hidden bg-[#eaf4ff]">
+    <section data-auth-page="true" className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#eaf4ff]">
       <div className="grid-fade absolute inset-0 opacity-45" />
       <div className="absolute -left-36 top-12 h-96 w-96 rounded-full bg-blue/10 blur-3xl" />
       <div className="absolute -right-28 bottom-0 h-96 w-96 rounded-full bg-cyan-300/20 blur-3xl" />
 
-      <div className="page-shell relative grid min-h-[calc(100vh-88px)] items-center gap-6 py-6 lg:grid-cols-[1.05fr_.95fr] lg:py-8">
+      <div className="page-shell relative grid min-h-[calc(100vh-72px)] items-center gap-6 py-6 lg:grid-cols-[1.05fr_.95fr] lg:py-8">
         <div className="relative overflow-hidden rounded-[34px] bg-[linear-gradient(145deg,#153f9f_0%,#235bd0_54%,#4b63d8_100%)] p-6 text-white shadow-[0_30px_80px_rgba(25,76,189,.2)] md:p-9">
           <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full border-[38px] border-white/[.05]" />
           <div className="relative">

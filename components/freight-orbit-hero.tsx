@@ -70,7 +70,7 @@ export function FreightOrbitHero() {
         pointerX.set(0);
         pointerY.set(0);
       }}
-      className="relative min-h-[760px] overflow-hidden bg-[#194cbd] text-white md:min-h-[940px]"
+      className="relative min-h-[calc(100svh-68px)] overflow-hidden bg-[#194cbd] text-white md:min-h-[calc(100svh-72px)]"
     >
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#194cbd_0%,#194cbd_25%,#3856ce_51%,#7669e3_70%,#a786ef_82%,#d8c7f8_92%,#ffffff_100%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[190px] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(245,240,253,.22)_34%,rgba(255,255,255,.78)_76%,#ffffff_100%)]" />
@@ -83,12 +83,12 @@ export function FreightOrbitHero() {
       </motion.div>
       <motion.div
         style={{ x: rightX, y: rightY }}
-        className="pointer-events-none absolute -right-[410px] top-[115px] h-[650px] w-[650px] md:-right-[390px] md:top-[115px] md:h-[710px] md:w-[710px] xl:-right-[335px]"
+        className="pointer-events-none absolute -right-[410px] top-[72px] h-[650px] w-[650px] md:-right-[390px] md:top-[72px] md:h-[710px] md:w-[710px] xl:-right-[335px]"
       >
         <RadialDial side="right" />
       </motion.div>
 
-      <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1500px] items-center justify-center px-5 pb-28 pt-14 text-center md:min-h-[940px] md:pb-44 md:pt-20">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-68px)] max-w-[1500px] items-start justify-center px-5 pb-28 pt-10 text-center md:min-h-[calc(100svh-72px)] md:pb-32 md:pt-14">
         <div className="max-w-[1120px]">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}

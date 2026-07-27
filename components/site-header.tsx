@@ -22,7 +22,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#2352bd] shadow-[0_14px_40px_rgba(20,63,155,.18)]">
-      <div className="page-shell flex h-[78px] items-center justify-between px-4 md:h-[88px] md:px-6">
+      <div className="page-shell flex h-[68px] items-center justify-between px-4 md:h-[72px] md:px-6">
         <Brand inverse />
         <nav className="hidden items-center gap-0 md:flex xl:gap-2" aria-label="Primary navigation">
           {primary.map((item) => (

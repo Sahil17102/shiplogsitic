@@ -88,7 +88,7 @@ export function Workspace({ admin = false }: { admin?: boolean }) {
 
   if (!accessReady) {
     return (
-      <section className="grid min-h-[calc(100vh-88px)] place-items-center bg-[#eef5ff]">
+      <section className="grid min-h-[calc(100vh-72px)] place-items-center bg-[#eef5ff]">
         <div className="text-center">
           <span className="mx-auto block h-9 w-9 animate-spin rounded-full border-4 border-blue/15 border-t-blue" />
           <p className="mt-4 text-xs font-black uppercase tracking-[.13em] text-blue">Checking secure session</p>
