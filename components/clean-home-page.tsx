@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Clock3,
@@ -24,6 +24,69 @@ import { MiniBookingDemo } from "./mini-booking-demo";
 
 const inputClass =
   "mt-2 h-12 w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue focus:ring-2 focus:ring-blue/10";
+
+function CountUp({
+  value,
+  prefix = "",
+  suffix = "",
+  decimals = 0,
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}) {
+  const markerRef = useRef<HTMLSpanElement>(null);
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (!marker) return;
+
+    let animationFrame = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          setDisplayValue(value);
+          observer.disconnect();
+          return;
+        }
+
+        const startedAt = performance.now();
+        const duration = 1500;
+        const tick = (now: number) => {
+          const progress = Math.min((now - startedAt) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setDisplayValue(value * eased);
+          if (progress < 1) animationFrame = requestAnimationFrame(tick);
+        };
+
+        animationFrame = requestAnimationFrame(tick);
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(marker);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [value]);
+
+  return (
+    <span ref={markerRef}>
+      {prefix}
+      {displayValue.toLocaleString("en-IN", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
+      {suffix}
+    </span>
+  );
+}
 
 export function CleanHomePage() {
   const [estimateReady, setEstimateReady] = useState(false);
@@ -130,6 +193,99 @@ export function CleanHomePage() {
       </section>
 
       <ShipmentScrollStory />
+
+      <section className="page-shell py-20 md:py-28">
+        <div className="mb-10 grid gap-5 border-b border-slate-200 pb-9 lg:grid-cols-[1fr_.8fr] lg:items-end">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[.16em] text-blue">The Shipray network</p>
+            <h2 className="mt-4 max-w-3xl text-balance text-4xl font-black tracking-[-.055em] text-ink md:text-6xl">Courier logistics, measured in real movement.</h2>
+          </div>
+          <p className="max-w-xl text-base leading-7 text-slate-600 lg:justify-self-end">From rate comparison to international reach, every number reflects a clearer way to book, move and track shipments.</p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-6">
+          {[
+            {
+              eyebrow: "More courier choice",
+              value: 14,
+              suffix: "+",
+              label: "courier partners compared",
+              copy: "Compare price, speed and delivery promise before booking.",
+              image: "/shipray-rate-calculator-hero.png",
+              position: "50% center",
+              span: "md:col-span-2",
+            },
+            {
+              eyebrow: "Lower shipping spend",
+              value: 32,
+              suffix: "%",
+              label: "average cost saved",
+              copy: "Smarter carrier selection for ecommerce and regular dispatches.",
+              image: "/ecommerce-fulfillment-team.png",
+              position: "50% center",
+              span: "md:col-span-2",
+            },
+            {
+              eyebrow: "Always-on visibility",
+              value: 24,
+              suffix: "×7",
+              label: "shipment tracking",
+              copy: "Follow pickup, hub movement, exceptions and final delivery.",
+              image: "/shipray-3d-logistics-hero.png",
+              position: "64% center",
+              span: "md:col-span-2",
+            },
+            {
+              eyebrow: "International reach",
+              value: 220,
+              suffix: "+",
+              label: "countries and territories",
+              copy: "Cross-border delivery with customs guidance and clear updates.",
+              image: "/shipray-logistics-hub.png",
+              position: "64% center",
+              span: "md:col-span-3",
+            },
+            {
+              eyebrow: "Connected operations",
+              value: 99.99,
+              suffix: "%",
+              decimals: 2,
+              label: "shipping API uptime SLA",
+              copy: "Dependable rate, label and tracking workflows for your stack.",
+              image: "/shipray-hero-operations.png",
+              position: "62% center",
+              span: "md:col-span-3",
+            },
+          ].map((stat) => (
+            <article key={stat.eyebrow} className={`group relative min-h-[370px] overflow-hidden rounded-[28px] border border-blue/10 bg-[#eaf4ff] ${stat.span}`}>
+              <Image
+                src={stat.image}
+                alt=""
+                fill
+                sizes="(max-width: 767px) 100vw, 50vw"
+                className="object-cover transition duration-700 group-hover:scale-[1.025]"
+                style={{ objectPosition: stat.position }}
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(239,246,255,.97)_0%,rgba(219,234,254,.88)_50%,rgba(191,219,254,.72)_100%)]" />
+              <div className="relative z-10 flex min-h-[370px] flex-col p-6 md:p-8">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-xs font-black uppercase tracking-[.13em] text-blue">{stat.eyebrow}</p>
+                  <span className="grid h-9 w-9 place-items-center rounded-full border border-blue/15 bg-white/70 text-blue">
+                    <Truck className="h-4 w-4" />
+                  </span>
+                </div>
+                <div className="mt-auto pt-20">
+                  <p className="text-6xl font-black tracking-[-.07em] text-ink md:text-7xl">
+                    <CountUp value={stat.value} suffix={stat.suffix} decimals={stat.decimals} />
+                  </p>
+                  <h3 className="mt-3 text-lg font-black tracking-[-.025em] text-ink">{stat.label}</h3>
+                  <p className="mt-2 max-w-lg text-sm leading-6 text-slate-700">{stat.copy}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="border-y border-slate-200 bg-[#f6f9fd]">
         <div className="page-shell grid gap-12 py-20 md:py-28 lg:grid-cols-2 lg:items-center">
