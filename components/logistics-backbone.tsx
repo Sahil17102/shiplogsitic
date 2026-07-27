@@ -14,7 +14,8 @@ function TimeOfDayIcon({ night }: { night: boolean }) {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
       <g className={night ? "opacity-0 transition-opacity" : "opacity-100 transition-opacity"}>
         <circle cx="10" cy="10" r="4.25" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19M3.64 3.64l1.77 1.77M14.59 14.59l1.77 1.77M16.36 3.64l-1.77 1.77M5.41 14.59l-1.77 1.77" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M10 17.25A7.25 7.25 0 0 0 17.25 10M10 17.25A7.25 7.25 0 0 1 2.75 10M10 2.75A7.25 7.25 0 0 0 2.75 10M10 2.75A7.25 7.25 0 0 1 17.25 10" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M16.5 10H19M14.596 14.596 16.364 16.364M10 16.5V19M5.404 14.596 3.636 16.364M3.5 10H1M5.404 5.404 3.636 3.636M10 3.5V1M16.364 3.636 14.596 5.404" stroke="currentColor" strokeWidth="1.5" />
       </g>
       <path
         d="M8.845 4.197c-.43 1.374-.823 3.886 1.125 5.834 1.948 1.947 4.457 1.553 5.832 1.123A5.918 5.918 0 1 1 8.845 4.197Z"
@@ -28,7 +29,7 @@ function TimeOfDayIcon({ night }: { night: boolean }) {
 
 export function LogisticsBackbone() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [nightMode, setNightMode] = useState(true);
+  const [nightMode, setNightMode] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,42 +61,41 @@ export function LogisticsBackbone() {
         return seed / 4294967296;
       };
 
-      const origin = new THREE.Vector3(0, -4.92, 0);
-      const routeCount = 420;
+      const origin = new THREE.Vector3(0, -4.94, 0);
+      const routeCount = 480;
       const routes = Array.from({ length: routeCount }, () => {
-        const angle = .08 + random() * (Math.PI - .16);
-        const radius = 5.2 + random() * 3.85;
+        const angle = .025 + random() * (Math.PI - .075);
+        const radius = 5.15 + random() * 4.05;
         return {
           end: new THREE.Vector3(
-            Math.cos(angle) * radius * 1.13,
-            origin.y + Math.sin(angle) * radius * 1.03,
-            (random() - .5) * 1.05,
+            Math.cos(angle) * radius * 1.16,
+            origin.y + Math.sin(angle) * radius,
+            (random() - .5) * .9,
           ),
-          speed: 0.055 + random() * 0.07,
+          speed: 0.045 + random() * 0.06,
           offset: random(),
-          scale: 0.72 + random() * 1.18,
+          scale: 0.62 + random() * 1.02,
         };
       });
 
       const positions: number[] = [];
       const colors: number[] = [];
       const linePalette = [
-        new THREE.Color("#FFF8F5"),
-        new THREE.Color("#FFF1D6"),
-        new THREE.Color("#FFC9DD"),
-        new THREE.Color("#E7C5FF"),
-        new THREE.Color("#CFAEFF"),
+        new THREE.Color("#635BFF"),
+        new THREE.Color("#7A35D8"),
+        new THREE.Color("#A82DD1"),
+        new THREE.Color("#D82CB4"),
+        new THREE.Color("#F12D91"),
+        new THREE.Color("#FF4D82"),
       ];
       const particlePalette = [
-        new THREE.Color("#FFFFFF"),
-        new THREE.Color("#FFF8F5"),
-        new THREE.Color("#FFF1D6"),
-        new THREE.Color("#FFDDB6"),
-        new THREE.Color("#FFC9DD"),
-        new THREE.Color("#FF9CCF"),
-        new THREE.Color("#E7C5FF"),
-        new THREE.Color("#CFAEFF"),
-        new THREE.Color("#F472B6"),
+        new THREE.Color("#635BFF"),
+        new THREE.Color("#7A35D8"),
+        new THREE.Color("#A82DD1"),
+        new THREE.Color("#D82CB4"),
+        new THREE.Color("#F12D91"),
+        new THREE.Color("#FF4D82"),
+        new THREE.Color("#FF6795"),
       ];
       let colorSeed = 73129;
       const colorRandom = () => {
@@ -111,6 +111,7 @@ export function LogisticsBackbone() {
         if (lineColorIndex === previousLineColor) lineColorIndex = (lineColorIndex + 1) % linePalette.length;
         previousLineColor = lineColorIndex;
         const lineColor = linePalette[lineColorIndex];
+        const originColor = new THREE.Color("#B78BFF").lerp(lineColor, .24);
 
         let particleColorIndex = (Math.floor(colorRandom() * particlePalette.length) + index) % particlePalette.length;
         if (particleColorIndex === previousParticleColor) particleColorIndex = (particleColorIndex + 1) % particlePalette.length;
@@ -122,9 +123,9 @@ export function LogisticsBackbone() {
 
         positions.push(origin.x, origin.y, origin.z, end.x, end.y, end.z);
         colors.push(
-          lineColor.r * 1.04,
-          lineColor.g * 1.04,
-          lineColor.b * 1.04,
+          originColor.r,
+          originColor.g,
+          originColor.b,
           lineColor.r,
           lineColor.g,
           lineColor.b,
@@ -137,8 +138,8 @@ export function LogisticsBackbone() {
       const routeMaterial = new THREE.LineBasicMaterial({
         vertexColors: true,
         transparent: true,
-        opacity: 0.28,
-        blending: THREE.AdditiveBlending,
+        opacity: 0.52,
+        blending: THREE.NormalBlending,
         depthWrite: false,
       });
       const routeLines = new THREE.LineSegments(routeGeometry, routeMaterial);
@@ -148,8 +149,8 @@ export function LogisticsBackbone() {
       const tipMaterial = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         transparent: true,
-        opacity: 0.9,
-        blending: THREE.AdditiveBlending,
+        opacity: 0.96,
+        blending: THREE.NormalBlending,
         depthWrite: false,
       });
       const tips = new THREE.InstancedMesh(tipGeometry, tipMaterial, routeCount);
@@ -170,7 +171,7 @@ export function LogisticsBackbone() {
         color: 0xffffff,
         transparent: true,
         opacity: 0.98,
-        blending: THREE.AdditiveBlending,
+        blending: THREE.NormalBlending,
         depthWrite: false,
       });
       const parcels = new THREE.InstancedMesh(parcelGeometry, parcelMaterial, routeCount);
@@ -184,20 +185,19 @@ export function LogisticsBackbone() {
       const glowContext = glowCanvas.getContext("2d");
       if (glowContext) {
         const glow = glowContext.createRadialGradient(128, 128, 0, 128, 128, 128);
-        glow.addColorStop(0, "rgba(255,253,248,.98)");
-        glow.addColorStop(.16, "rgba(255,198,216,.82)");
-        glow.addColorStop(.34, "rgba(255,211,165,.62)");
-        glow.addColorStop(.56, "rgba(230,168,255,.4)");
-        glow.addColorStop(.78, "rgba(192,132,252,.18)");
-        glow.addColorStop(1, "rgba(139,92,246,0)");
+        glow.addColorStop(0, "rgba(178,112,255,.74)");
+        glow.addColorStop(.2, "rgba(214,120,238,.46)");
+        glow.addColorStop(.45, "rgba(255,125,181,.2)");
+        glow.addColorStop(.72, "rgba(255,173,146,.08)");
+        glow.addColorStop(1, "rgba(255,173,146,0)");
         glowContext.fillStyle = glow;
         glowContext.fillRect(0, 0, 256, 256);
       }
       const glowTexture = new THREE.CanvasTexture(glowCanvas);
-      const glowMaterial = new THREE.SpriteMaterial({ map: glowTexture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+      const glowMaterial = new THREE.SpriteMaterial({ map: glowTexture, transparent: true, blending: THREE.NormalBlending, depthWrite: false });
       const glowSprite = new THREE.Sprite(glowMaterial);
       glowSprite.position.copy(origin);
-      glowSprite.scale.set(8.6, 8.6, 1);
+      glowSprite.scale.set(5.4, 5.4, 1);
       network.add(glowSprite);
 
       const pointerTarget = { x: 0, y: 0 };
@@ -275,34 +275,30 @@ export function LogisticsBackbone() {
   }, []);
 
   return (
-    <section className={nightMode ? "bg-[#171d56] text-white" : "bg-[#3f37b6] text-white"}>
-      <div
-        aria-hidden="true"
-        className="h-44 bg-[radial-gradient(ellipse_125%_115%_at_50%_-14%,#ffffff_0%,#ffffff_31%,rgba(255,255,255,.82)_51%,rgba(255,255,255,.42)_72%,rgba(255,255,255,0)_100%)] md:h-60"
-      />
-      <div className="page-shell border-x border-white/15">
-        <div className="border-b border-white/15 px-6 py-20 text-center md:py-28">
-          <p className="text-xs font-black uppercase tracking-[.18em] text-indigo-200">Shipray network</p>
-          <h2 className="mx-auto mt-5 max-w-4xl text-balance text-4xl font-medium leading-[1.04] tracking-[-.055em] md:text-7xl">The backbone of connected commerce.</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-indigo-100/65">Every pickup, scan, route and delivery connected through one dependable operating network.</p>
+    <section className="relative overflow-hidden bg-[#f6f9fc] text-[#0a2540]">
+      <div className="page-shell">
+        <div className="px-1 py-20 text-center md:py-28">
+          <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#635bff]">Shipray network</p>
+          <h2 className="mx-auto mt-5 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] tracking-[-.055em] md:text-7xl">The backbone of connected commerce.</h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#425466]">Every pickup, scan, route and delivery connected through one dependable operating network.</p>
         </div>
 
-        <div className="grid border-b border-white/15 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map(([value, label, copy], index) => (
-            <div key={label} className="min-h-[190px] border-b border-r border-white/15 px-6 py-9 text-center sm:min-h-[210px] lg:border-b-0">
-              <p className={index === 0 ? "text-4xl font-medium tracking-[-.055em] text-white md:text-5xl" : "text-4xl font-medium tracking-[-.055em] text-indigo-300/75 md:text-5xl"}>{value}</p>
-              <p className="mx-auto mt-4 max-w-[190px] text-sm font-black leading-5 text-white/90">{label}</p>
-              <p className="mx-auto mt-1 max-w-[190px] text-xs leading-5 text-indigo-200/55">{copy}</p>
+            <div key={label} className="min-h-[182px] px-1 py-8 text-left sm:px-5 lg:px-1">
+              <p className={index === 0 ? "text-4xl font-semibold tracking-[-.05em] text-[#0a2540] md:text-5xl" : "text-4xl font-semibold tracking-[-.05em] text-[#8c9bbb] md:text-5xl"}>{value}</p>
+              <p className={index === 0 ? "mt-4 max-w-[230px] text-lg leading-7 text-[#0a2540]" : "mt-4 max-w-[230px] text-lg leading-7 text-[#7a8bab]"}>{label}</p>
+              <p className="mt-1 max-w-[230px] text-sm leading-6 text-[#8c9bbb]">{copy}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="relative isolate h-[100svh] min-h-[560px] max-h-[760px] w-full overflow-hidden border-y border-white/15">
-        <div className={nightMode ? "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_104%,rgba(255,253,248,.98)_0%,rgba(255,198,216,.9)_15%,rgba(255,211,165,.76)_31%,rgba(230,168,255,.6)_52%,rgba(192,132,252,.38)_69%,rgba(139,92,246,.14)_82%,transparent_94%),radial-gradient(circle_at_15%_30%,rgba(255,244,229,.78),transparent_45%),radial-gradient(circle_at_86%_35%,rgba(248,180,217,.58),transparent_44%),linear-gradient(180deg,#FFFDF8_0%,#FFF4E5_18%,#FFE8C2_36%,#FFD3A5_53%,#FFC6D8_68%,#E6A8FF_82%,#8B5CF6_94%,#5B4FE9_100%)]" : "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_104%,rgba(255,255,255,.98)_0%,rgba(255,201,221,.88)_17%,rgba(255,221,182,.72)_34%,rgba(231,197,255,.58)_54%,rgba(207,174,255,.34)_72%,transparent_93%),radial-gradient(circle_at_18%_24%,rgba(255,253,248,.88),transparent_42%),radial-gradient(circle_at_82%_32%,rgba(255,156,207,.46),transparent_46%),linear-gradient(180deg,#FFFDF8_0%,#FFF4E5_22%,#FFE8C2_42%,#FFD3A5_60%,#F8B4D9_76%,#C084FC_91%,#5B4FE9_100%)]"} />
+      <div className="h-px w-full bg-[linear-gradient(90deg,#635bff_0%,#f229c3_17%,#ffd9b7_30%,#dbe3ed_55%,#dbe3ed_100%)]" />
+      <div className="relative isolate h-[430px] w-full overflow-hidden md:h-[528px]">
+        <div className={nightMode ? "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_102%,rgba(111,66,193,.45)_0%,rgba(84,55,157,.18)_30%,transparent_64%),linear-gradient(180deg,#171d56_0%,#2b2463_100%)]" : "absolute inset-0 bg-[radial-gradient(ellipse_at_50%_102%,rgba(174,104,255,.5)_0%,rgba(226,112,227,.28)_23%,rgba(255,153,170,.12)_42%,transparent_67%),radial-gradient(circle_at_50%_18%,rgba(255,255,255,.6),transparent_56%),linear-gradient(180deg,#fffaf2_0%,#fff5e3_38%,#ffe7c0_73%,#ffd49d_100%)]"} />
         <canvas ref={canvasRef} className="absolute inset-0 z-10 h-full w-full cursor-crosshair touch-none" aria-hidden="true" data-engine="three.js" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-[#fff4e5]/35 to-transparent" />
-        <button onClick={() => setNightMode((mode) => !mode)} type="button" aria-label={nightMode ? "Night. Switch to day" : "Day. Switch to night"} className="absolute right-5 top-5 z-20 grid h-12 w-12 place-items-center rounded-lg border border-white/45 bg-white/5 text-white backdrop-blur-sm transition hover:bg-white/15 md:right-9 md:top-8">
+        <button onClick={() => setNightMode((mode) => !mode)} type="button" aria-label={nightMode ? "Night. Switch to sunrise" : "Sunrise. Switch to night"} className={nightMode ? "absolute right-3 top-8 z-20 grid h-10 w-10 place-items-center rounded-md border border-white/25 bg-white/5 text-white transition hover:bg-white/10" : "absolute right-3 top-8 z-20 grid h-10 w-10 place-items-center rounded-md border border-[#f3c6eb] bg-white/35 text-[#ef4dc2] transition hover:bg-white/60"}>
           <TimeOfDayIcon night={nightMode} />
         </button>
       </div>
