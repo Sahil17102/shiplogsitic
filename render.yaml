@@ -3,7 +3,7 @@ services:
     name: shiplogsitic-12
     runtime: static
     buildCommand: npm ci && npm run build
-    staticPublishPath: ./out
+    staticPublishPath: ./dist
     autoDeployTrigger: commit
     envVars:
       - key: NEXT_PUBLIC_API_URL
