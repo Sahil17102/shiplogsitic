@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f7faff;
+  --foreground: #081225;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 92% 4%, rgba(96, 165, 250, 0.13), transparent 25rem),
+    radial-gradient(circle at 4% 19%, rgba(219, 234, 254, 0.7), transparent 22rem),
+    var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display), "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "ss01", "cv05", "cv10";
+}
+
+::selection {
+  background: #bfdbfe;
+  color: #0b2868;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 3px;
+}
+
+.page-shell {
+  width: min(100% - 2rem, 1240px);
+  margin-inline: auto;
+}
+
+.grid-fade {
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 82%);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 24px 80px rgba(24, 76, 146, 0.12);
+  backdrop-filter: blur(20px);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.hero-title {
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.soft-border {
+  border: 1px solid rgba(210, 223, 240, 0.9);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.section-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stats-animation-gradient {
+  position: absolute;
+  inset: -18%;
+  opacity: 0.38;
+  filter: saturate(1.08);
+}
+
+.stats-animation-gradient__gradient {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  animation: hero-sky-phase 36s ease-in-out infinite;
+}
+
+.stats-animation-gradient__gradient--pre-dawn {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(196, 181, 253, 0.95), transparent 36%),
+    linear-gradient(135deg, #dbeafe 0%, #ede9fe 48%, #f8fafc 100%);
+  animation-delay: 0s;
+}
+
+.stats-animation-gradient__gradient--sunrise {
+  background:
+    radial-gradient(circle at 72% 28%, rgba(253, 186, 116, 0.95), transparent 34%),
+    linear-gradient(135deg, #ffe4e6 0%, #fef3c7 50%, #dbeafe 100%);
+  animation-delay: -30s;
+}
+
+.stats-animation-gradient__gradient--daytime {
+  background:
+    radial-gradient(circle at 76% 18%, rgba(125, 211, 252, 0.9), transparent 36%),
+    linear-gradient(135deg, #eff6ff 0%, #dbeafe 48%, #e0f2fe 100%);
+  animation-delay: -24s;
+}
+
+.stats-animation-gradient__gradient--dusk {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(216, 180, 254, 0.95), transparent 35%),
+    linear-gradient(135deg, #ddd6fe 0%, #fce7f3 48%, #ffedd5 100%);
+  animation-delay: -18s;
+}
+
+.stats-animation-gradient__gradient--sunset {
+  background:
+    radial-gradient(circle at 68% 34%, rgba(251, 146, 60, 0.95), transparent 34%),
+    linear-gradient(135deg, #fecdd3 0%, #fed7aa 52%, #bfdbfe 100%);
+  animation-delay: -12s;
+}
+
+.stats-animation-gradient__gradient--night {
+  background:
+    radial-gradient(circle at 74% 24%, rgba(59, 130, 246, 0.85), transparent 34%),
+    linear-gradient(135deg, #c7d2fe 0%, #bfdbfe 48%, #dbeafe 100%);
+  animation-delay: -6s;
+}
+
+@keyframes hero-sky-phase {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  10%,
+  22% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
