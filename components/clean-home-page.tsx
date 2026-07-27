@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, Check, MapPin, PackageCheck, ShieldCheck, Truck } from "lucide-react";
@@ -67,21 +68,52 @@ export function CleanHomePage() {
           <h2 className="max-w-xl text-balance text-4xl font-black tracking-[-.055em] text-ink md:text-6xl">What do you need to move?</h2>
           <p className="max-w-xl text-base leading-7 text-slate-600 md:justify-self-end">Parcel delivery, freight and fulfilment are handled by the same operations team, with one place to track progress.</p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3">
-          {services.slice(0, 6).map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <Link key={service.title} href={service.href} className="group border-b border-slate-200 px-1 py-8 transition hover:bg-slate-50 md:px-6 md:nth-[odd]:border-r lg:border-r lg:nth-[3n]:border-r-0">
-                <div className="flex items-center justify-between">
-                  <Icon className="h-6 w-6 text-blue" />
-                  <span className="text-xs font-black text-slate-400">0{index + 1}</span>
-                </div>
-                <h3 className="mt-8 text-xl font-black tracking-[-.03em] text-ink">{service.title}</h3>
-                <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600">{service.copy}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-blue">View service <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
-              </Link>
-            );
-          })}
+        <div className="grid lg:grid-cols-[minmax(0,3fr)_minmax(280px,1fr)]">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3">
+            {services.slice(0, 6).map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <Link
+                  key={service.title}
+                  href={service.href}
+                  className="group flex min-h-[300px] flex-col border-b border-slate-200 px-1 py-9 transition hover:bg-slate-50 sm:border-r sm:px-6 sm:nth-[2n]:border-r-0 lg:min-h-[320px] lg:border-r lg:px-7 lg:py-10 lg:nth-[2n]:border-r lg:nth-[3n]:border-r-0"
+                >
+                  <div className="flex items-center justify-between">
+                    <Icon className="h-6 w-6 text-blue" />
+                    <span className="text-xs font-black text-slate-400">0{index + 1}</span>
+                  </div>
+                  <h3 className="mt-9 text-xl font-black tracking-[-.03em] text-ink">{service.title}</h3>
+                  <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600">{service.copy}</p>
+                  <span className="mt-auto inline-flex items-center gap-2 pt-8 text-sm font-black text-blue">
+                    View service
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <Link
+            href="/domestic-shipping"
+            className="group relative min-h-[420px] overflow-hidden border-b border-slate-200 lg:min-h-full lg:border-l"
+          >
+            <Image
+              src="/shipray-hero-operations.png"
+              alt="Courier professional scanning a parcel beside a delivery van and warehouse"
+              fill
+              sizes="(min-width: 1024px) 25vw, 100vw"
+              className="object-cover object-[63%_center] transition duration-700 group-hover:scale-[1.025]"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,18,37,.02)_24%,rgba(8,18,37,.84)_100%)]" />
+            <div className="absolute inset-x-0 bottom-0 p-7 text-white md:p-9">
+              <p className="text-[11px] font-black uppercase tracking-[.16em] text-cyan-200">Courier operations</p>
+              <h3 className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-.04em] md:text-3xl">From pickup scan to final delivery.</h3>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-black">
+                Explore domestic shipping
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </div>
+          </Link>
         </div>
       </section>
 
