@@ -3,7 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, Check, MapPin, PackageCheck, ShieldCheck, Truck } from "lucide-react";
+import {
+  ArrowRight,
+  Clock3,
+  IndianRupee,
+  MapPin,
+  PackageCheck,
+  Plane,
+  RefreshCw,
+  Route,
+  ScanLine,
+  ShieldCheck,
+  Truck,
+} from "lucide-react";
 import { services } from "@/lib/site-data";
 import { ShipmentScrollStory } from "./shipment-scroll-story";
 import { LogisticsBackbone } from "./logistics-backbone";
@@ -143,16 +155,66 @@ export function CleanHomePage() {
       </section>
 
       <section className="page-shell py-20 md:py-28">
-        <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+        <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr]">
           <div>
             <p className="text-xs font-black uppercase tracking-[.16em] text-blue">Why teams switch</p>
             <h2 className="mt-4 text-balance text-4xl font-black tracking-[-.055em] text-ink md:text-6xl">Fewer tools. Fewer follow-ups.</h2>
+            <p className="mt-5 max-w-lg text-base leading-7 text-slate-600">Book across courier services, follow every scan and resolve delivery exceptions without leaving one operations view.</p>
+
+            <div className="mt-10 overflow-hidden rounded-[28px] bg-ink text-white shadow-[0_24px_70px_rgba(8,18,37,.18)]">
+              <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 md:px-6">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+                  <p className="text-[11px] font-black uppercase tracking-[.14em] text-white/70">Live courier lane</p>
+                </div>
+                <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[10px] font-black uppercase tracking-[.1em] text-emerald-300">In transit</span>
+              </div>
+
+              <div className="p-5 md:p-6">
+                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4">
+                  <div>
+                    <p className="text-2xl font-black tracking-[-.04em]">DEL</p>
+                    <p className="mt-1 text-[10px] font-bold uppercase tracking-[.12em] text-white/45">New Delhi</p>
+                  </div>
+                  <div className="relative">
+                    <div className="h-px bg-white/15" />
+                    <div className="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cyan-300" />
+                    <div className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full border-2 border-white/35 bg-ink" />
+                    <div className="absolute left-[62%] top-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-blue shadow-[0_8px_24px_rgba(37,99,235,.42)]">
+                      <Truck className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-black tracking-[-.04em]">BOM</p>
+                    <p className="mt-1 text-[10px] font-bold uppercase tracking-[.12em] text-white/45">Mumbai</p>
+                  </div>
+                </div>
+
+                <div className="mt-7 h-1.5 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full w-[62%] rounded-full bg-[linear-gradient(90deg,#2dd4bf,#38bdf8,#2563eb)]" />
+                </div>
+
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-white/10 bg-white/[.06] p-4">
+                    <div className="flex items-center gap-2 text-cyan-300"><ScanLine className="h-4 w-4" /><span className="text-[10px] font-black uppercase tracking-[.12em]">Latest scan</span></div>
+                    <p className="mt-3 text-sm font-black">Departed sorting hub</p>
+                    <p className="mt-1 text-xs text-white/45">Shipment SRX 2084 9182</p>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/[.06] p-4">
+                    <div className="flex items-center gap-2 text-cyan-300"><Clock3 className="h-4 w-4" /><span className="text-[10px] font-black uppercase tracking-[.12em]">Delivery promise</span></div>
+                    <p className="mt-3 text-sm font-black">Tomorrow, before 6 PM</p>
+                    <p className="mt-1 text-xs text-white/45">Surface priority service</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="border-t border-slate-200">
             {[
-              [Truck, "One place to book", "No switching between separate courier portals for every order."],
-              [MapPin, "Exceptions surface early", "Delayed pickups and delivery issues are flagged while there is still time to act."],
-              [ShieldCheck, "One support team", "Your team has a clear point of contact when a shipment needs attention."],
+              [Route, "One place for every courier lane", "Compare service speed, delivery promise and price before you book each order."],
+              [ScanLine, "Every parcel scan stays visible", "Pickup, hub movement, out-for-delivery and delivery confirmation appear in one timeline."],
+              [MapPin, "Exceptions surface early", "Delayed pickups, address issues and failed delivery attempts are flagged while there is time to act."],
+              [ShieldCheck, "One logistics support team", "Your team has a clear point of contact when a courier shipment needs attention."],
             ].map(([Icon, title, copy]) => {
               const ItemIcon = Icon as typeof Truck;
               return (
@@ -163,6 +225,27 @@ export function CleanHomePage() {
               );
             })}
           </div>
+        </div>
+
+        <div className="mt-14 grid overflow-hidden rounded-[26px] border border-slate-200 bg-slate-50 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            [Plane, "Express courier", "Priority movement for urgent parcels and documents."],
+            [Truck, "Surface shipping", "Cost-efficient delivery for regular and heavier orders."],
+            [IndianRupee, "COD orders", "Cash collection with clear remittance visibility."],
+            [RefreshCw, "Reverse logistics", "Returns and exchanges routed back without confusion."],
+          ].map(([Icon, title, copy], index) => {
+            const ServiceIcon = Icon as typeof Truck;
+            return (
+              <div key={title as string} className="border-b border-slate-200 p-6 last:border-b-0 sm:nth-[odd]:border-r lg:border-b-0 lg:border-r lg:last:border-r-0">
+                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-blue text-white shadow-[0_10px_24px_rgba(37,99,235,.2)]">
+                  <ServiceIcon className="h-5 w-5" />
+                </div>
+                <p className="mt-5 text-[10px] font-black uppercase tracking-[.14em] text-blue">0{index + 1}</p>
+                <h3 className="mt-2 text-lg font-black tracking-[-.025em] text-ink">{title as string}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{copy as string}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
 
