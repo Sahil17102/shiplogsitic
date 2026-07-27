@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { LogIn, Menu, X } from "lucide-react";
 import { Brand } from "./brand";
 import { Button } from "./ui";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,18 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center md:flex">
+        <div className="hidden items-center gap-2 md:flex">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className={cn(
+              "border-white/25 bg-white/10 px-5 font-extrabold text-white hover:border-white hover:bg-white hover:text-[#2352bd]",
+              pathname === "/dashboard-login" && "border-white bg-white text-[#2352bd]",
+            )}
+          >
+            <Link href="/dashboard-login"><LogIn className="h-4 w-4" /> Log in</Link>
+          </Button>
           <Button asChild size="sm" className="bg-[#35ddd3] px-6 font-extrabold text-[#07375c] shadow-[0_12px_28px_rgba(53,221,211,.22)] hover:bg-[#58e8df]">
             <Link href="/rate-calculator">Calculate rate</Link>
           </Button>
@@ -74,6 +85,9 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="mt-2 border-t border-white/10 pt-3">
+              <Button asChild variant="outline" className="mb-2 w-full border-white/25 bg-white/10 font-extrabold text-white hover:bg-white hover:text-[#2352bd]">
+                <Link href="/dashboard-login" onClick={() => setOpen(false)}><LogIn className="h-4 w-4" /> Log in</Link>
+              </Button>
               <Button asChild className="w-full bg-[#35ddd3] font-extrabold text-[#07375c] hover:bg-[#58e8df]">
                 <Link href="/rate-calculator" onClick={() => setOpen(false)}>Calculate rate</Link>
               </Button>

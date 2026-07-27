@@ -177,11 +177,15 @@ function PageForm({ slug }: { slug: string }) {
       <form onSubmit={submit} className="rounded-[28px] border border-line bg-white p-6 shadow-card md:p-8">
         <div className="grid h-12 w-12 place-items-center rounded-2xl bg-sky text-blue"><LockKeyhole className="h-5 w-5" /></div>
         <h2 className="mt-6 text-2xl font-black tracking-[-0.04em]">Sign in to Shipray</h2>
+        <p className="mt-2 text-sm leading-6 text-muted">Access shipments, tracking, invoices and delivery exceptions from one secure workspace.</p>
         <div className="mt-6"><Label>Work email</Label><input type="email" className={fieldClass} placeholder="you@company.com" required /></div>
         <div className="mt-4"><Label>Password</Label><div className="relative"><input type={showPassword ? "text" : "password"} className={cn(fieldClass, "pr-12")} placeholder="••••••••" required /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted" aria-label="Toggle password visibility">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
-        <div className="mt-4 flex items-center justify-between text-xs"><label className="flex items-center gap-2 font-semibold text-muted"><input type="checkbox" /> Remember me</label><a href="#" className="font-bold text-blue">Forgot password?</a></div>
+        <div className="mt-4 flex items-center justify-between text-xs"><label className="flex items-center gap-2 font-semibold text-muted"><input type="checkbox" /> Remember me</label><Link href="/contact" className="font-bold text-blue hover:underline">Forgot password?</Link></div>
         <Button variant="blue" className="mt-6 w-full">Continue securely</Button>
         {done && <Link href="/dashboard" className="mt-3 flex h-12 items-center justify-center rounded-full bg-emerald-50 text-sm font-black text-emerald-700">Open demo dashboard <ArrowRight className="ml-2 h-4 w-4" /></Link>}
+        <div className="my-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-muted/60"><span className="h-px flex-1 bg-line" />New to Shipray?<span className="h-px flex-1 bg-line" /></div>
+        <Button asChild variant="outline" className="w-full"><Link href="/contact">Create a business account</Link></Button>
+        <p className="mt-4 text-center text-[10px] leading-4 text-muted">Protected with secure access controls and encrypted account data.</p>
       </form>
     );
   }
@@ -248,8 +252,8 @@ export function InnerPage({ slug }: { slug: string }) {
               <h1 className="hero-title text-balance text-5xl font-black sm:text-6xl lg:text-7xl">{data.title}</h1>
               <p className="mt-6 max-w-xl text-base leading-7 text-muted md:text-lg">{data.description}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild variant="blue" size="lg"><Link href={slug === "dashboard-login" ? "/dashboard" : "/book-shipment"}>{slug === "dashboard-login" ? "View demo workspace" : "Get started"} <ArrowRight className="h-4 w-4" /></Link></Button>
-                <Button asChild variant="outline" size="lg"><Link href="/contact">Talk to an expert</Link></Button>
+                <Button asChild variant="blue" size="lg"><Link href={slug === "dashboard-login" ? "#login-panel" : "/book-shipment"}>{slug === "dashboard-login" ? "Sign in securely" : "Get started"} <ArrowRight className="h-4 w-4" /></Link></Button>
+                <Button asChild variant="outline" size="lg"><Link href="/contact">{slug === "dashboard-login" ? "Create account" : "Talk to an expert"}</Link></Button>
               </div>
               <div className="mt-10 flex items-center gap-4">
                 <p className="text-3xl font-black tracking-[-0.05em] text-blue">{data.metric}</p>
@@ -257,8 +261,14 @@ export function InnerPage({ slug }: { slug: string }) {
                 <p className="max-w-[130px] text-xs font-bold leading-5 text-muted">{data.metricLabel}</p>
               </div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.1 }} className="relative overflow-hidden rounded-[28px] border-[8px] border-white bg-white shadow-float">
-              <div className="relative aspect-[4/3]">
+            <motion.div
+              id={slug === "dashboard-login" ? "login-panel" : undefined}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className={cn(slug === "dashboard-login" ? "scroll-mt-28" : "relative overflow-hidden rounded-[28px] border-[8px] border-white bg-white shadow-float")}
+            >
+              {slug === "dashboard-login" ? <PageForm slug={slug} /> : <div className="relative aspect-[4/3]">
                 <Image
                   src={heroVisual.src}
                   fill
@@ -279,7 +289,7 @@ export function InnerPage({ slug }: { slug: string }) {
                   </div>
                   <ShieldCheck className="h-5 w-5 text-emerald-600" />
                 </div>
-              </div>
+              </div>}
             </motion.div>
           </div>
         </div>
@@ -307,15 +317,17 @@ export function InnerPage({ slug }: { slug: string }) {
         </div>
       </section>
 
-      <section className="page-shell py-14 md:py-24">
-        <div className="rounded-[34px] bg-sky/65 p-5 md:p-10">
-          <div className="mb-8 flex items-end justify-between gap-5">
-            <div><span className="text-xs font-black uppercase tracking-[0.16em] text-blue">Try it now</span><h2 className="mt-3 text-3xl font-black tracking-[-0.045em] md:text-4xl">{slug === "dashboard-login" ? "Your command centre, one sign-in away." : "See Shipray in motion."}</h2></div>
-            <Sparkles className="hidden h-7 w-7 text-blue sm:block" />
+      {slug !== "dashboard-login" && (
+        <section className="page-shell py-14 md:py-24">
+          <div className="rounded-[34px] bg-sky/65 p-5 md:p-10">
+            <div className="mb-8 flex items-end justify-between gap-5">
+              <div><span className="text-xs font-black uppercase tracking-[0.16em] text-blue">Try it now</span><h2 className="mt-3 text-3xl font-black tracking-[-0.045em] md:text-4xl">See Shipray in motion.</h2></div>
+              <Sparkles className="hidden h-7 w-7 text-blue sm:block" />
+            </div>
+            <PageForm slug={slug} />
           </div>
-          <PageForm slug={slug} />
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="page-shell py-14 md:py-24">
         <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
