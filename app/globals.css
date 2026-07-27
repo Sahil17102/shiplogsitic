@@ -27,6 +27,10 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
+body:has([data-auth-page="true"]) footer {
+  display: none;
+}
+
 h1,
 h2,
 h3,

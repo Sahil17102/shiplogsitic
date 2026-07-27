@@ -25,6 +25,7 @@ import { pageData, services } from "@/lib/site-data";
 import { Button, Eyebrow, fieldClass, Label } from "./ui";
 import { cn } from "@/lib/utils";
 import { Brand } from "./brand";
+import { LoginExperience } from "./login-experience";
 
 const fulfilmentPages = new Set([
   "warehousing",
@@ -238,6 +239,10 @@ function SuccessBox({ title, copy }: { title: string; copy: string }) {
 }
 
 export function InnerPage({ slug }: { slug: string }) {
+  if (slug === "dashboard-login") {
+    return <LoginExperience />;
+  }
+
   const data = pageData[slug];
   const isLegal = ["privacy-policy", "terms-and-conditions", "refund-policy"].includes(slug);
   const heroVisual = getHeroVisual(slug, data.eyebrow);

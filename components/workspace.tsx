@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Activity,
   BarChart3,
@@ -16,6 +17,7 @@ import {
   Gauge,
   IndianRupee,
   LifeBuoy,
+  LogOut,
   Menu,
   PackageCheck,
   Search,
@@ -43,10 +45,38 @@ const adminNav = [
 ];
 
 export function Workspace({ admin = false }: { admin?: boolean }) {
+  const router = useRouter();
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState("Overview");
+  const [accessReady, setAccessReady] = useState(admin);
   const nav = admin ? adminNav : userNav;
   const bars = [38, 55, 49, 72, 66, 83, 61, 91, 76, 97, 88, 106];
+
+  useEffect(() => {
+    if (admin) return;
+    if (window.sessionStorage.getItem("shipray-demo-auth") === "true") {
+      setAccessReady(true);
+      return;
+    }
+    router.replace("/dashboard-login");
+  }, [admin, router]);
+
+  const signOut = () => {
+    window.sessionStorage.removeItem("shipray-demo-auth");
+    window.sessionStorage.removeItem("shipray-demo-user");
+    router.replace("/dashboard-login");
+  };
+
+  if (!accessReady) {
+    return (
+      <section className="grid min-h-[calc(100vh-88px)] place-items-center bg-[#eef5ff]">
+        <div className="text-center">
+          <span className="mx-auto block h-9 w-9 animate-spin rounded-full border-4 border-blue/15 border-t-blue" />
+          <p className="mt-4 text-xs font-black uppercase tracking-[.13em] text-blue">Checking secure session</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="page-shell py-8">
@@ -68,6 +98,7 @@ export function Workspace({ admin = false }: { admin?: boolean }) {
             <button className="mt-3 text-[10px] font-black text-blue">Start a conversation →</button>
           </div>
           <Link href="/" className="mt-6 block text-center text-[10px] font-bold text-muted hover:text-blue">← Back to website</Link>
+          {!admin && <button type="button" onClick={signOut} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-line px-3 py-2.5 text-[10px] font-black text-muted transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"><LogOut className="h-3.5 w-3.5" /> Sign out</button>}
         </aside>
 
         <div>
