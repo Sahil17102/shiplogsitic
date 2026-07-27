@@ -1,10 +1,9 @@
 services:
   - type: web
     name: shiplogsitic-12
-    runtime: node
+    runtime: static
     buildCommand: npm ci && npm run build
-    startCommand: npm start
-    healthCheckPath: /
+    staticPublishPath: ./out
     autoDeployTrigger: commit
     envVars:
       - key: NEXT_PUBLIC_API_URL

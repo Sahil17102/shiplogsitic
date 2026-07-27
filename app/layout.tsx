@@ -18,7 +18,7 @@ const displayFont = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shipray.example"),
+  metadataBase: new URL("https://shiplogsitic-12.onrender.com"),
   title: { default: "Shipray — Move shipments faster", template: "%s | Shipray" },
   description: "AI-powered courier, freight and fulfilment for modern Indian businesses.",
   openGraph: { title: "Shipray Logistics", description: "Move shipments faster. Deliver with confidence.", type: "website" },

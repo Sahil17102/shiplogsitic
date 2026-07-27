@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: "dist",
+  output: "export",
+  trailingSlash: true,
   images: {
     formats: ["image/avif", "image/webp"],
     unoptimized: true,
