@@ -26,6 +26,7 @@ import { Button, Eyebrow, fieldClass, Label } from "./ui";
 import { cn } from "@/lib/utils";
 import { Brand } from "./brand";
 import { LoginExperience } from "./login-experience";
+import { UtilityToolPage, type UtilityToolSlug } from "./utility-tool-page";
 
 const fulfilmentPages = new Set([
   "warehousing",
@@ -243,6 +244,10 @@ export function InnerPage({ slug }: { slug: string }) {
     return <LoginExperience />;
   }
 
+  if (slug === "weight-calculator" || slug === "rate-calculator" || slug === "tracking") {
+    return <UtilityToolPage slug={slug as UtilityToolSlug} />;
+  }
+
   const data = pageData[slug];
   const isLegal = ["privacy-policy", "terms-and-conditions", "refund-policy"].includes(slug);
   const heroVisual = getHeroVisual(slug, data.eyebrow);
@@ -300,6 +305,18 @@ export function InnerPage({ slug }: { slug: string }) {
         </div>
       </section>
 
+      {slug !== "dashboard-login" && (
+        <section className="page-shell pb-12 pt-2 md:pb-20 md:pt-4">
+          <div className="rounded-[34px] bg-sky/65 p-5 md:p-10">
+            <div className="mb-8 flex items-end justify-between gap-5">
+              <div><span className="text-xs font-black uppercase tracking-[0.16em] text-blue">Try it now</span><h2 className="mt-3 text-3xl font-black tracking-[-0.045em] md:text-4xl">See ShipRoute in motion.</h2></div>
+              <Sparkles className="hidden h-7 w-7 text-blue sm:block" />
+            </div>
+            <PageForm slug={slug} />
+          </div>
+        </section>
+      )}
+
       <section className="page-shell py-10 md:py-20">
         <div className="grid gap-14 lg:grid-cols-[.82fr_1.18fr]">
           <div>
@@ -321,18 +338,6 @@ export function InnerPage({ slug }: { slug: string }) {
           </div>
         </div>
       </section>
-
-      {slug !== "dashboard-login" && (
-        <section className="page-shell py-14 md:py-24">
-          <div className="rounded-[34px] bg-sky/65 p-5 md:p-10">
-            <div className="mb-8 flex items-end justify-between gap-5">
-              <div><span className="text-xs font-black uppercase tracking-[0.16em] text-blue">Try it now</span><h2 className="mt-3 text-3xl font-black tracking-[-0.045em] md:text-4xl">See ShipRoute in motion.</h2></div>
-              <Sparkles className="hidden h-7 w-7 text-blue sm:block" />
-            </div>
-            <PageForm slug={slug} />
-          </div>
-        </section>
-      )}
 
       <section className="page-shell py-14 md:py-24">
         <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">

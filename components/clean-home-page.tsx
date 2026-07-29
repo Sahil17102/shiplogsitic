@@ -22,6 +22,7 @@ import { LogisticsBackbone } from "./logistics-backbone";
 import { FreightOrbitHero } from "./freight-orbit-hero";
 import { MiniBookingDemo } from "./mini-booking-demo";
 import { CourierPartnerCloud } from "./courier-partner-cloud";
+import { CommerceConnectionMap } from "./commerce-connection-map";
 
 const inputClass =
   "mt-2 h-12 w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue focus:ring-2 focus:ring-blue/10";
@@ -93,10 +94,10 @@ export function CleanHomePage() {
   const [estimateReady, setEstimateReady] = useState(false);
 
   return (
-    <div className="bg-white">
+    <div className="flex flex-col bg-white">
       <FreightOrbitHero />
 
-      <section id="estimate" className="border-b border-slate-200 bg-white">
+      <section id="estimate" className="order-10 border-t border-slate-200 bg-white">
         <div className="page-shell py-10 md:py-12">
           <div className="grid gap-8 lg:grid-cols-[280px_1fr] lg:items-end">
             <div>
@@ -406,9 +407,11 @@ export function CleanHomePage() {
         </div>
       </section>
 
+      <CommerceConnectionMap />
+
       <CourierPartnerCloud />
 
-      <section className="page-shell">
+      <section className="page-shell order-[20]">
         <div className="grid gap-5 rounded-t-2xl bg-[linear-gradient(110deg,#194cbd_0%,#3856ce_52%,#7669e3_100%)] px-6 py-7 text-white shadow-[0_-12px_36px_rgba(56,86,206,.12)] md:grid-cols-[auto_1fr_auto] md:items-center md:px-9">
           <p className="text-[11px] font-black uppercase tracking-[.16em] text-cyan-200">Operations team</p>
           <h2 className="text-xl font-extrabold tracking-[-.025em] md:text-2xl">Tell us what you ship—we&apos;ll suggest a practical setup.</h2>

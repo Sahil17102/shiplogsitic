@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,10 +18,26 @@ const primary = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const activePath = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+
+  useEffect(() => {
+    const updateHeader = () => setScrolled(window.scrollY > 12);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeader);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-[0_10px_34px_rgba(15,46,99,.09)] backdrop-blur-xl">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300",
+        scrolled
+          ? "border-slate-200/80 bg-white/90 shadow-[0_10px_30px_rgba(15,46,99,.07)] backdrop-blur-xl"
+          : "border-transparent bg-white shadow-none",
+      )}
+    >
       <div className="page-shell flex h-[76px] items-center justify-between px-4 md:h-[82px] md:px-6">
         <Brand />
         <nav className="hidden items-center gap-0 md:flex xl:gap-2" aria-label="Primary navigation">
@@ -31,7 +47,7 @@ export function SiteHeader() {
               href={item.href}
               className={cn(
                 "rounded-xl px-2.5 py-2.5 text-[13px] font-bold text-slate-700 transition hover:bg-blue-50 hover:text-[#2352bd] xl:px-4 xl:text-[15px]",
-                pathname === item.href && "bg-[#e8f0ff] text-[#2352bd] shadow-[inset_0_0_0_1px_rgba(35,82,189,.08)]",
+                activePath === item.href && "bg-[#2352bd] text-white shadow-[0_8px_20px_rgba(35,82,189,.2)] hover:bg-[#2352bd] hover:text-white",
               )}
             >
               {item.name}
@@ -45,7 +61,7 @@ export function SiteHeader() {
             size="sm"
             className={cn(
               "border-[#2352bd]/30 bg-white px-5 font-extrabold text-[#2352bd] hover:border-[#2352bd] hover:bg-[#2352bd] hover:text-white",
-              pathname === "/dashboard-login" && "border-[#2352bd] bg-[#2352bd] text-white",
+              activePath === "/dashboard-login" && "border-[#2352bd] bg-[#2352bd] text-white",
             )}
           >
             <Link href="/dashboard-login"><LogIn className="h-4 w-4" /> Log in</Link>
@@ -78,7 +94,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 className={cn(
                   "block rounded-2xl px-4 py-3 text-base font-bold text-slate-700 hover:bg-blue-50 hover:text-[#2352bd]",
-                  pathname === item.href && "bg-[#e8f0ff] text-[#2352bd]",
+                  activePath === item.href && "bg-[#2352bd] text-white hover:bg-[#2352bd] hover:text-white",
                 )}
               >
                 {item.name}
