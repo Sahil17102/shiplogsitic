@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: shiplogsitic-12
+    name: shiproute-logistics
     runtime: static
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
