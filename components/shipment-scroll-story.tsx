@@ -27,7 +27,7 @@ const chapters = [
     label: "Connected logistics network",
     title: "Connect once. Ship everywhere.",
     description:
-      "Bring orders, courier services and freight movements into one operating view. Your team books once and Shipray coordinates the route ahead.",
+      "Bring orders, courier services and freight movements into one operating view. Your team books once and ShipRoute coordinates the route ahead.",
     bullets: [
       "29,000+ serviceable pin codes across India",
       "Domestic, international, air and surface options",
@@ -57,7 +57,7 @@ const chapters = [
     label: "Proactive visibility",
     title: "Clarity that improves every delivery.",
     description:
-      "More movement data means earlier signals and faster decisions. Shipray helps your team respond while a shipment can still be kept on track.",
+      "More movement data means earlier signals and faster decisions. ShipRoute helps your team respond while a shipment can still be kept on track.",
     bullets: [
       "When a pickup slips, the operations team sees it early",
       "When a lane slows, alternate services can be compared",
@@ -379,7 +379,7 @@ export function ShipmentScrollStory() {
   return (
     <section ref={sectionRef} className="border-y border-slate-200 bg-white">
       <div className="page-shell py-20 text-center md:py-28">
-        <p className="text-xs font-extrabold uppercase tracking-[.18em] text-cyan-700">Shipray connected logistics</p>
+        <p className="text-xs font-extrabold uppercase tracking-[.18em] text-cyan-700">ShipRoute connected logistics</p>
         <h2 className="mx-auto mt-5 max-w-5xl text-balance text-4xl font-extrabold leading-[1.02] tracking-[-.05em] text-slate-950 md:text-7xl">
           The network behind every successful delivery.
         </h2>

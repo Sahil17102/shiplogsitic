@@ -197,7 +197,7 @@ export function CleanHomePage() {
       <section className="page-shell py-20 md:py-28">
         <div className="mb-10 grid gap-5 border-b border-slate-200 pb-9 lg:grid-cols-[1fr_.8fr] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[.16em] text-blue">The Shipray network</p>
+            <p className="text-xs font-black uppercase tracking-[.16em] text-blue">The ShipRoute network</p>
             <h2 className="mt-4 max-w-3xl text-balance text-4xl font-black tracking-[-.055em] text-ink md:text-6xl">Courier logistics, measured in real movement.</h2>
           </div>
           <p className="max-w-xl text-base leading-7 text-slate-600 lg:justify-self-end">From rate comparison to international reach, every number reflects a clearer way to book, move and track shipments.</p>

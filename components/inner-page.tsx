@@ -57,7 +57,7 @@ function getHeroVisual(slug: string, pageName: string) {
   if (slug === "courier-calculator" || slug === "rate-calculator") {
     return {
       src: "/shipray-rate-calculator-hero.png",
-      alt: `${pageName} manager comparing courier rates in a Shipray dispatch hub`,
+      alt: `${pageName} manager comparing courier rates in a ShipRoute dispatch hub`,
       objectPosition: "50% center",
     };
   }
@@ -73,7 +73,7 @@ function getHeroVisual(slug: string, pageName: string) {
   if (fulfilmentPages.has(slug)) {
     return {
       src: "/ecommerce-fulfillment-team.png",
-      alt: `${pageName} team preparing customer parcels with Shipray Logistics`,
+      alt: `${pageName} team preparing customer parcels with ShipRoute Logistics`,
       objectPosition: "50% center",
     };
   }
@@ -89,7 +89,7 @@ function getHeroVisual(slug: string, pageName: string) {
   if (technologyPages.has(slug)) {
     return {
       src: "/shipray-3d-logistics-hero.png",
-      alt: `${pageName} across Shipray's connected courier logistics network`,
+      alt: `${pageName} across ShipRoute's connected courier logistics network`,
       objectPosition: "58% center",
     };
   }
@@ -127,7 +127,7 @@ function PageForm({ slug }: { slug: string }) {
         <div><Label>Dead weight</Label><input className={fieldClass} placeholder="0.5 kg" required /></div>
         <div><Label>Payment</Label><select className={fieldClass}><option>Prepaid</option><option>Cash on delivery</option></select></div>
         <Button variant="blue" className="sm:col-span-2">Compare courier rates</Button>
-        {done && <div className="sm:col-span-2"><SuccessBox title="Best rate: ₹86" copy="Shipray Economy · Estimated delivery in 4–5 business days. Taxes calculated at checkout." /></div>}
+        {done && <div className="sm:col-span-2"><SuccessBox title="Best rate: ₹86" copy="ShipRoute Economy · Estimated delivery in 4–5 business days. Taxes calculated at checkout." /></div>}
       </form>
     );
   }
@@ -168,7 +168,7 @@ function PageForm({ slug }: { slug: string }) {
         <div><Label>Monthly shipments</Label><select className={fieldClass}><option>Under 500</option><option>500–2,000</option><option>2,000–10,000</option><option>10,000+</option></select></div>
         <div className="sm:col-span-2"><Label>How can we help?</Label><textarea className={cn(fieldClass, "h-28 py-3")} placeholder="Tell us about your shipping setup…" /></div>
         <Button variant="blue" className="sm:col-span-2">Send enquiry <Send className="h-4 w-4" /></Button>
-        {done && <div className="sm:col-span-2"><SuccessBox title="Message received" copy="A Shipray logistics specialist will contact you shortly." /></div>}
+        {done && <div className="sm:col-span-2"><SuccessBox title="Message received" copy="A ShipRoute logistics specialist will contact you shortly." /></div>}
       </form>
     );
   }
@@ -177,14 +177,14 @@ function PageForm({ slug }: { slug: string }) {
     return (
       <form onSubmit={submit} className="rounded-[28px] border border-line bg-white p-6 shadow-card md:p-8">
         <div className="grid h-12 w-12 place-items-center rounded-2xl bg-sky text-blue"><LockKeyhole className="h-5 w-5" /></div>
-        <h2 className="mt-6 text-2xl font-black tracking-[-0.04em]">Sign in to Shipray</h2>
+        <h2 className="mt-6 text-2xl font-black tracking-[-0.04em]">Sign in to ShipRoute</h2>
         <p className="mt-2 text-sm leading-6 text-muted">Access shipments, tracking, invoices and delivery exceptions from one secure workspace.</p>
         <div className="mt-6"><Label>Work email</Label><input type="email" className={fieldClass} placeholder="you@company.com" required /></div>
         <div className="mt-4"><Label>Password</Label><div className="relative"><input type={showPassword ? "text" : "password"} className={cn(fieldClass, "pr-12")} placeholder="••••••••" required /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted" aria-label="Toggle password visibility">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
         <div className="mt-4 flex items-center justify-between text-xs"><label className="flex items-center gap-2 font-semibold text-muted"><input type="checkbox" /> Remember me</label><Link href="/contact" className="font-bold text-blue hover:underline">Forgot password?</Link></div>
         <Button variant="blue" className="mt-6 w-full">Continue securely</Button>
         {done && <Link href="/dashboard" className="mt-3 flex h-12 items-center justify-center rounded-full bg-emerald-50 text-sm font-black text-emerald-700">Open demo dashboard <ArrowRight className="ml-2 h-4 w-4" /></Link>}
-        <div className="my-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-muted/60"><span className="h-px flex-1 bg-line" />New to Shipray?<span className="h-px flex-1 bg-line" /></div>
+        <div className="my-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-muted/60"><span className="h-px flex-1 bg-line" />New to ShipRoute?<span className="h-px flex-1 bg-line" /></div>
         <Button asChild variant="outline" className="w-full"><Link href="/contact">Create a business account</Link></Button>
         <p className="mt-4 text-center text-[10px] leading-4 text-muted">Protected with secure access controls and encrypted account data.</p>
       </form>
@@ -288,7 +288,7 @@ export function InnerPage({ slug }: { slug: string }) {
                   <div className="flex min-w-0 items-center gap-3">
                     <Brand compact />
                     <div className="min-w-0">
-                      <p className="text-[10px] font-bold text-muted">Shipray Logistics</p>
+                      <p className="text-[10px] font-bold text-muted">ShipRoute Logistics</p>
                       <p className="truncate text-sm font-black">{data.eyebrow}</p>
                     </div>
                   </div>
@@ -326,7 +326,7 @@ export function InnerPage({ slug }: { slug: string }) {
         <section className="page-shell py-14 md:py-24">
           <div className="rounded-[34px] bg-sky/65 p-5 md:p-10">
             <div className="mb-8 flex items-end justify-between gap-5">
-              <div><span className="text-xs font-black uppercase tracking-[0.16em] text-blue">Try it now</span><h2 className="mt-3 text-3xl font-black tracking-[-0.045em] md:text-4xl">See Shipray in motion.</h2></div>
+              <div><span className="text-xs font-black uppercase tracking-[0.16em] text-blue">Try it now</span><h2 className="mt-3 text-3xl font-black tracking-[-0.045em] md:text-4xl">See ShipRoute in motion.</h2></div>
               <Sparkles className="hidden h-7 w-7 text-blue sm:block" />
             </div>
             <PageForm slug={slug} />
@@ -361,7 +361,7 @@ export function InnerPage({ slug }: { slug: string }) {
       <section className="page-shell py-16">
         <div className="relative overflow-hidden rounded-[34px] bg-ink p-8 text-white md:flex md:items-center md:justify-between md:p-12">
           <div className="absolute -right-16 -top-24 h-60 w-60 rounded-full bg-blue/30 blur-3xl" />
-          <div className="relative max-w-2xl"><p className="text-xs font-black uppercase tracking-[0.17em] text-blue-300">Talk to Shipray</p><h2 className="mt-4 text-3xl font-black tracking-[-0.05em] md:text-5xl">Let’s design your better route.</h2><p className="mt-3 text-sm text-white/55">No hard sell. Just a useful conversation about how you ship today.</p></div>
+          <div className="relative max-w-2xl"><p className="text-xs font-black uppercase tracking-[0.17em] text-blue-300">Talk to ShipRoute</p><h2 className="mt-4 text-3xl font-black tracking-[-0.05em] md:text-5xl">Let’s design your better route.</h2><p className="mt-3 text-sm text-white/55">No hard sell. Just a useful conversation about how you ship today.</p></div>
           <Button asChild size="lg" className="relative mt-7 bg-white text-ink hover:bg-blue-50 md:mt-0"><Link href="/contact">Contact our team <ArrowRight className="h-4 w-4" /></Link></Button>
         </div>
       </section>

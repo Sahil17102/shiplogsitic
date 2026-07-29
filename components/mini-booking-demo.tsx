@@ -51,7 +51,7 @@ export function MiniBookingDemo() {
       <div className="flex h-12 items-center justify-between border-b border-slate-200 bg-white px-4">
         <div className="flex items-center gap-2">
           <span className="grid h-7 w-7 place-items-center rounded-lg bg-blue text-white"><Box className="h-3.5 w-3.5" /></span>
-          <span className="text-xs font-extrabold tracking-[-.03em] text-slate-950">Shipray booking</span>
+          <span className="text-xs font-extrabold tracking-[-.03em] text-slate-950">ShipRoute booking</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="hidden items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-1 text-[8px] font-extrabold uppercase tracking-[.08em] text-emerald-700 sm:inline-flex">

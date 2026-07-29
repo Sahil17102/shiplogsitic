@@ -55,7 +55,7 @@ export const partners = ["BLUE DART", "DELHIVERY", "DTDC", "FedEx", "UPS", "DHL"
 
 export const testimonials = [
   {
-    quote: "Shipray cut our RTO rate in the first month. The courier recommendations are accurate and the team responds before we even have to follow up.",
+    quote: "ShipRoute cut our RTO rate in the first month. The courier recommendations are accurate and the team responds before we even have to follow up.",
     name: "Aarav Mehta",
     role: "Operations lead, Auric Living",
     initials: "AM",
@@ -87,7 +87,7 @@ export type PageData = {
 const baseFaq = [
   { q: "How quickly can we get started?", a: "Most businesses can create an account, connect a sales channel and book their first shipment in less than a day." },
   { q: "Will we get live shipment visibility?", a: "Yes. Every shipment includes scan-based tracking, proactive exception alerts and a shareable branded tracking page." },
-  { q: "Can Shipray support enterprise volumes?", a: "Yes. Dedicated account management, custom SLAs, API access and negotiated carrier pricing are available for high-volume teams." },
+  { q: "Can ShipRoute support enterprise volumes?", a: "Yes. Dedicated account management, custom SLAs, API access and negotiated carrier pricing are available for high-volume teams." },
 ];
 
 const feature = (a: string, b: string, c: string) => [
@@ -97,8 +97,8 @@ const feature = (a: string, b: string, c: string) => [
 ];
 
 export const pageData: Record<string, PageData> = {
-  "about-us": { eyebrow: "About Shipray", title: "Logistics should feel effortless.", description: "We combine a nationwide courier network, thoughtful software and accountable people to help modern businesses move with confidence.", metric: "10,000+", metricLabel: "growing businesses", features: feature("Built for India", "Globally connected", "Human when it matters"), faq: baseFaq },
-  services: { eyebrow: "All services", title: "One logistics partner. Every mode.", description: "From an envelope across town to containers across oceans, Shipray unifies planning, movement and visibility.", metric: "12+", metricLabel: "shipping solutions", features: feature("Parcel delivery", "Freight movement", "Smart fulfilment"), faq: baseFaq },
+  "about-us": { eyebrow: "About ShipRoute", title: "Logistics should feel effortless.", description: "We combine a nationwide courier network, thoughtful software and accountable people to help modern businesses move with confidence.", metric: "10,000+", metricLabel: "growing businesses", features: feature("Built for India", "Globally connected", "Human when it matters"), faq: baseFaq },
+  services: { eyebrow: "All services", title: "One logistics partner. Every mode.", description: "From an envelope across town to containers across oceans, ShipRoute unifies planning, movement and visibility.", metric: "12+", metricLabel: "shipping solutions", features: feature("Parcel delivery", "Freight movement", "Smart fulfilment"), faq: baseFaq },
   "domestic-shipping": { eyebrow: "Domestic shipping", title: "Every Indian pin code, within reach.", description: "Fast, reliable parcel delivery with intelligent courier allocation and lower rates for every business size.", metric: "29,000+", metricLabel: "serviceable pin codes", features: feature("Same-day pickup", "Smart courier match", "Easy COD settlement"), faq: baseFaq },
   "international-shipping": { eyebrow: "International shipping", title: "Your business, without borders.", description: "Door-to-door cross-border delivery with customs guidance, transparent pricing and proactive tracking.", metric: "220+", metricLabel: "countries & territories", features: feature("Customs assistance", "Express options", "Paperless workflow"), faq: baseFaq },
   "air-freight": { eyebrow: "Air freight", title: "When every hour matters.", description: "Priority air cargo solutions engineered for urgent, valuable and temperature-sensitive shipments.", metric: "48 hrs", metricLabel: "major global lanes", features: feature("Priority uplift", "Airport-to-door", "Special cargo handling"), faq: baseFaq },
@@ -115,14 +115,14 @@ export const pageData: Record<string, PageData> = {
   "rate-calculator": { eyebrow: "Rate calculator", title: "Know the cost before you ship.", description: "Compare estimated courier pricing by route, weight and service level—with no surprise platform fees.", metric: "14+", metricLabel: "courier partners compared", features: feature("Instant estimate", "Volumetric check", "Speed comparison"), faq: baseFaq },
   industries: { eyebrow: "Industry solutions", title: "Logistics shaped around your business.", description: "Purpose-built workflows for regulated, high-value, fast-moving and customer-critical supply chains.", metric: "9", metricLabel: "specialist industry teams", features: feature("Workflow design", "Compliance support", "Custom operating SLA"), faq: baseFaq },
   "api-integration": { eyebrow: "Developer platform", title: "Powerful logistics. A few clean APIs.", description: "Embed rates, labels, tracking and NDR workflows into the tools your team already uses.", metric: "99.99%", metricLabel: "API uptime SLA", features: feature("Modern REST APIs", "Useful webhooks", "Sandbox included"), faq: baseFaq },
-  blog: { eyebrow: "Shipray journal", title: "Ideas for better movement.", description: "Practical guides, logistics intelligence and stories from teams building remarkable supply chains.", metric: "Weekly", metricLabel: "new operator insight", features: feature("Shipping guides", "Industry reports", "Founder stories"), faq: baseFaq },
+  blog: { eyebrow: "ShipRoute journal", title: "Ideas for better movement.", description: "Practical guides, logistics intelligence and stories from teams building remarkable supply chains.", metric: "Weekly", metricLabel: "new operator insight", features: feature("Shipping guides", "Industry reports", "Founder stories"), faq: baseFaq },
   careers: { eyebrow: "Careers", title: "Build the way India moves.", description: "Join a curious, high-ownership team making logistics feel simpler for millions of shipments.", metric: "11", metricLabel: "open roles", features: feature("High ownership", "Flexible work", "Meaningful scale"), faq: baseFaq },
   contact: { eyebrow: "Contact", title: "Tell us what you need to move.", description: "Our logistics specialists will help design a faster, clearer and more cost-effective shipping setup.", metric: "< 15 min", metricLabel: "priority response", features: feature("Sales consultation", "Migration support", "Operations desk"), faq: baseFaq },
-  faq: { eyebrow: "Help centre", title: "Answers, without the runaround.", description: "Everything you need to book, track, manage returns and understand billing with Shipray.", metric: "24×7", metricLabel: "support availability", features: feature("Getting started", "Shipping & tracking", "Billing & claims"), faq: baseFaq },
-  "privacy-policy": { eyebrow: "Legal", title: "Privacy, written clearly.", description: "How Shipray collects, uses and protects information across our products and services.", metric: "26 Jul 2026", metricLabel: "last updated", features: feature("Data transparency", "Secure by design", "Your controls"), faq: baseFaq },
-  "terms-and-conditions": { eyebrow: "Legal", title: "Terms built on clarity.", description: "The rules that keep Shipray services fair, secure and dependable for every customer.", metric: "26 Jul 2026", metricLabel: "last updated", features: feature("Service terms", "Customer duties", "Fair resolution"), faq: baseFaq },
+  faq: { eyebrow: "Help centre", title: "Answers, without the runaround.", description: "Everything you need to book, track, manage returns and understand billing with ShipRoute.", metric: "24×7", metricLabel: "support availability", features: feature("Getting started", "Shipping & tracking", "Billing & claims"), faq: baseFaq },
+  "privacy-policy": { eyebrow: "Legal", title: "Privacy, written clearly.", description: "How ShipRoute collects, uses and protects information across our products and services.", metric: "26 Jul 2026", metricLabel: "last updated", features: feature("Data transparency", "Secure by design", "Your controls"), faq: baseFaq },
+  "terms-and-conditions": { eyebrow: "Legal", title: "Terms built on clarity.", description: "The rules that keep ShipRoute services fair, secure and dependable for every customer.", metric: "26 Jul 2026", metricLabel: "last updated", features: feature("Service terms", "Customer duties", "Fair resolution"), faq: baseFaq },
   "refund-policy": { eyebrow: "Legal", title: "Fair resolutions, clearly explained.", description: "Understand refund eligibility, timelines and how we resolve shipment billing concerns.", metric: "7–10 days", metricLabel: "eligible refund window", features: feature("Eligibility", "Simple requests", "Status updates"), faq: baseFaq },
-  "dashboard-login": { eyebrow: "Shipray workspace", title: "Welcome back.", description: "Sign in to book shipments, track exceptions, manage invoices and understand every delivery.", metric: "99.99%", metricLabel: "secure platform uptime", features: feature("Secure access", "One workspace", "Responsive support"), faq: baseFaq },
+  "dashboard-login": { eyebrow: "ShipRoute workspace", title: "Welcome back.", description: "Sign in to book shipments, track exceptions, manage invoices and understand every delivery.", metric: "99.99%", metricLabel: "secure platform uptime", features: feature("Secure access", "One workspace", "Responsive support"), faq: baseFaq },
 };
 
 export const routeSlugs = Object.keys(pageData);

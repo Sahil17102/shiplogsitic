@@ -4,7 +4,7 @@ import { RadialNetworkCanvas } from "./visualizations/radial-network-canvas";
 
 const metrics = [
   ["29,000+", "serviceable pin codes", "across India"],
-  ["12M+", "shipments coordinated", "through Shipray"],
+  ["12M+", "shipments coordinated", "through ShipRoute"],
   ["98.4%", "on-time dispatch", "across active lanes"],
   ["220+", "countries and territories", "connected globally"],
 ];
@@ -15,7 +15,7 @@ export function LogisticsBackbone() {
       <div className="page-shell">
         <div className="px-1 py-20 text-center md:py-28">
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#635bff]">
-            Shipray network
+            ShipRoute network
           </p>
           <h2 className="mx-auto mt-5 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] tracking-[-.055em] md:text-7xl">
             The backbone of connected commerce.
