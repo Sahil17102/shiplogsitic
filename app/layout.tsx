@@ -18,7 +18,7 @@ const displayFont = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shiproute-logistics.onrender.com"),
+  metadataBase: new URL("https://shiproute-brgj.onrender.com"),
   title: { default: "ShipRoute — Move shipments faster", template: "%s | ShipRoute" },
   description: "AI-powered courier, freight and fulfilment for modern Indian businesses.",
   icons: { icon: "/shiproute-mark.png", apple: "/shiproute-mark.png" },
