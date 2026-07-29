@@ -21,6 +21,7 @@ import { ShipmentScrollStory } from "./shipment-scroll-story";
 import { LogisticsBackbone } from "./logistics-backbone";
 import { FreightOrbitHero } from "./freight-orbit-hero";
 import { MiniBookingDemo } from "./mini-booking-demo";
+import { CourierPartnerCloud } from "./courier-partner-cloud";
 
 const inputClass =
   "mt-2 h-12 w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue focus:ring-2 focus:ring-blue/10";
@@ -404,6 +405,8 @@ export function CleanHomePage() {
           })}
         </div>
       </section>
+
+      <CourierPartnerCloud />
 
       <section className="page-shell">
         <div className="grid gap-5 rounded-t-2xl bg-[linear-gradient(110deg,#194cbd_0%,#3856ce_52%,#7669e3_100%)] px-6 py-7 text-white shadow-[0_-12px_36px_rgba(56,86,206,.12)] md:grid-cols-[auto_1fr_auto] md:items-center md:px-9">
