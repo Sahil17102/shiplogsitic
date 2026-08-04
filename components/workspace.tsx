@@ -77,7 +77,7 @@ export function Workspace({ admin = false }: { admin?: boolean }) {
     router.replace("/dashboard-login");
   };
 
-  const displayName = profile?.fullName?.trim() || "Shipray user";
+  const displayName = profile?.fullName?.trim() || "ShipRoute user";
   const firstName = displayName.split(/\s+/)[0];
   const initials = displayName
     .split(/\s+/)

@@ -199,7 +199,7 @@ function CourierLoginVisual() {
                 <div className="absolute left-3 top-4 rounded-lg border border-white/20 bg-white/90 p-2 text-[#143985] shadow-lg">
                   <div className="flex items-center gap-1.5">
                     <Package className="h-4 w-4" />
-                    <span className="text-[7px] font-black tracking-[.08em]">SHIPRAY</span>
+                    <span className="text-[7px] font-black tracking-[.08em]">SHIPROUTE</span>
                   </div>
                   <Barcode className="mt-1 h-4 w-12" />
                   <span className="block text-[6px] font-bold">SR-287-41</span>
@@ -370,7 +370,7 @@ export function LoginExperience() {
     const account = readAccounts().find((item) => item.email === cleanEmail);
 
     if (!account) {
-      setError("No Shipray account was found for this email. Please register first.");
+      setError("No ShipRoute account was found for this email. Please register first.");
       return;
     }
 
@@ -540,7 +540,7 @@ export function LoginExperience() {
             </form>
           ) : view === "register" ? (
             <form onSubmit={submitRegistration}>
-              <h2 className="mt-6 text-3xl font-black tracking-[-.045em] text-ink">Create your Shipray account</h2>
+              <h2 className="mt-6 text-3xl font-black tracking-[-.045em] text-ink">Create your ShipRoute account</h2>
               <p className="mt-2 text-sm leading-6 text-muted">Add your business details and set a password for future logins.</p>
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -635,7 +635,7 @@ export function LoginExperience() {
               <Button variant="blue" className="mt-5 w-full" disabled={opening}>
                 {opening ? "Checking password…" : "Log in with password"} {!opening && <ArrowRight className="h-4 w-4" />}
               </Button>
-              <p className="mt-4 text-center text-xs text-muted">New to Shipray? <button type="button" onClick={() => switchView("register")} className="font-black text-blue hover:underline">Create account</button></p>
+              <p className="mt-4 text-center text-xs text-muted">New to ShipRoute? <button type="button" onClick={() => switchView("register")} className="font-black text-blue hover:underline">Create account</button></p>
             </form>
           )}
 

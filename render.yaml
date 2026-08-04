@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: shiplogsitic-12
+    name: shiproute-brgj
     runtime: static
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
     autoDeployTrigger: commit
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://shiplogsitic.onrender.com
+        value: https://shiproute-yz2i.onrender.com

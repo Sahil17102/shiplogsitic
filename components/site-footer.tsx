@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Apple, Facebook, Instagram, Linkedin, Play, Twitter, Youtube } from "lucide-react";
 
@@ -47,17 +48,15 @@ const socialLinks = [
 
 function FooterLogo() {
   return (
-    <Link href="/" aria-label="Shipray home" className="inline-flex items-center gap-3 text-white">
-      <svg viewBox="0 0 42 34" className="h-8 w-10" fill="none" aria-hidden="true">
-        <rect x="1" y="4" width="8" height="11" rx="2" fill="#fff" />
-        <rect x="1" y="19" width="8" height="11" rx="2" fill="#fff" />
-        <rect x="13" y="1" width="8" height="17" rx="2" fill="#5BE9E1" />
-        <rect x="13" y="22" width="8" height="8" rx="2" fill="#fff" />
-        <rect x="25" y="8" width="16" height="20" rx="2.5" fill="#38DDD3" />
-        <path d="M1 31.5h40" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-      </svg>
-      <span className="font-display text-[26px] font-extrabold uppercase tracking-[-.04em]">
-        Shipray
+    <Link href="/" aria-label="ShipRoute home" className="inline-flex items-center text-white">
+      <span className="relative block h-[112px] w-[128px] overflow-hidden rounded-2xl border border-white/70 bg-white shadow-[0_16px_36px_rgba(3,35,92,.25)]">
+        <Image
+          src="/shiproute-logo.png"
+          alt=""
+          fill
+          className="object-contain p-2"
+          sizes="128px"
+        />
       </span>
     </Link>
   );
@@ -70,7 +69,7 @@ export function SiteFooter() {
 
       <div className="relative mx-auto max-w-[1580px] px-6 py-9 sm:px-10 lg:px-14 lg:py-11">
         <div className="flex flex-col gap-5 border-b border-white/20 pb-8 text-sm font-medium text-white/80 md:flex-row md:items-center md:justify-between">
-          <p>*Shipray connects businesses with verified logistics and carrier partners.</p>
+          <p>*ShipRoute connects businesses with verified logistics and carrier partners.</p>
           <div className="flex flex-wrap gap-x-9 gap-y-3">
             <Link href="/privacy-policy" className="font-semibold text-white transition hover:text-cyan-200">
               Do not sell or share my info
@@ -93,7 +92,7 @@ export function SiteFooter() {
                 <a
                   key={label}
                   href="#"
-                  aria-label={`Shipray on ${label}`}
+                  aria-label={`ShipRoute on ${label}`}
                   className="grid h-9 w-9 place-items-center rounded-full border border-white/25 text-white transition hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-white hover:text-[#194cbd]"
                 >
                   <Icon className="h-[18px] w-[18px]" />
@@ -102,14 +101,14 @@ export function SiteFooter() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#" aria-label="Get Shipray on Google Play" className="flex h-[52px] items-center gap-3 rounded-lg border border-white/35 bg-[#143f9b]/55 px-4 transition hover:bg-[#143f9b]/80">
+              <a href="#" aria-label="Get ShipRoute on Google Play" className="flex h-[52px] items-center gap-3 rounded-lg border border-white/35 bg-[#143f9b]/55 px-4 transition hover:bg-[#143f9b]/80">
                 <Play className="h-6 w-6 fill-cyan-300 text-cyan-300" />
                 <span>
                   <span className="block text-[9px] font-semibold uppercase tracking-[.06em] text-white/75">Get it on</span>
                   <span className="block text-[15px] font-bold leading-4">Google Play</span>
                 </span>
               </a>
-              <a href="#" aria-label="Download Shipray on the App Store" className="flex h-[52px] items-center gap-3 rounded-lg border border-white/35 bg-[#143f9b]/55 px-4 transition hover:bg-[#143f9b]/80">
+              <a href="#" aria-label="Download ShipRoute on the App Store" className="flex h-[52px] items-center gap-3 rounded-lg border border-white/35 bg-[#143f9b]/55 px-4 transition hover:bg-[#143f9b]/80">
                 <Apple className="h-7 w-7 fill-white text-white" />
                 <span>
                   <span className="block text-[9px] font-semibold tracking-[.03em] text-white/75">Download on the</span>
@@ -136,7 +135,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-7 border-t border-white/20 py-9 text-sm md:flex-row md:items-center md:justify-between">
-          <p className="font-medium text-white/75">© 2026 Shipray Logistics Pvt. Ltd.</p>
+          <p className="font-medium text-white/75">© 2026 ShipRoute Logistics Pvt. Ltd.</p>
           <div className="flex flex-wrap gap-x-8 gap-y-3">
             <Link href="/privacy-policy" className="font-semibold text-white/85 transition hover:text-cyan-200">Privacy policy</Link>
             <Link href="/terms-and-conditions" className="font-semibold text-white/85 transition hover:text-cyan-200">Terms of service</Link>

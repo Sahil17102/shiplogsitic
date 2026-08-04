@@ -188,7 +188,7 @@ function RateCalculator() {
       </form>
       {calculated && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-4 grid gap-2">
-          {[["Recommended", "Shipray Priority", "2–3 days", "₹118"], ["Lowest", "Shipray Economy", "4–5 days", "₹86"]].map((row, i) => (
+          {[["Recommended", "ShipRoute Priority", "2–3 days", "₹118"], ["Lowest", "ShipRoute Economy", "4–5 days", "₹86"]].map((row, i) => (
             <div key={row[0]} className={cn("flex items-center justify-between rounded-2xl border p-3", i === 0 ? "border-blue/25 bg-sky" : "border-line")}>
               <div><span className="text-[9px] font-black uppercase tracking-wider text-blue">{row[0]}</span><p className="text-sm font-black">{row[1]}</p><p className="text-[10px] text-muted">{row[2]}</p></div>
               <p className="text-lg font-black">{row[3]}</p>
@@ -341,7 +341,7 @@ export function HomePage() {
 
       <section className="page-shell">
         <div className="relative min-h-[640px] overflow-hidden rounded-[36px] bg-[#dfefff]">
-          <Image src="/shipray-logistics-hub.png" fill alt="Shipray delivery van at a modern logistics hub" className="object-cover object-center lg:object-right" sizes="(max-width: 768px) 100vw, 1240px" />
+          <Image src="/shipray-logistics-hub.png" fill alt="ShipRoute delivery van at a modern logistics hub" className="object-cover object-center lg:object-right" sizes="(max-width: 768px) 100vw, 1240px" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#eff7ff] via-[#eff7ff]/80 to-transparent" />
           <motion.div data-parallax initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="absolute inset-x-0 bottom-0 top-0 flex max-w-xl flex-col justify-center p-7 md:p-14">
             <Eyebrow>One connected network</Eyebrow>
@@ -357,7 +357,7 @@ export function HomePage() {
       </section>
 
       <section className="page-shell py-24 md:py-32">
-        <SectionHeading eyebrow="Why Shipray" title="The unfair advantage behind every delivery." copy="Intelligence where it saves time. People where judgment matters." align="center" />
+        <SectionHeading eyebrow="Why ShipRoute" title="The unfair advantage behind every delivery." copy="Intelligence where it saves time. People where judgment matters." align="center" />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((item, i) => {
             const Icon = item.icon;
@@ -411,7 +411,7 @@ export function HomePage() {
       </section>
 
       <section className="page-shell pb-24 md:pb-32">
-        <SectionHeading eyebrow="Built around you" title="Every industry moves differently." copy="Shipray adapts the network, workflow and controls to the promise you make your customer." />
+        <SectionHeading eyebrow="Built around you" title="Every industry moves differently." copy="ShipRoute adapts the network, workflow and controls to the promise you make your customer." />
         <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
           {industries.map((industry, i) => {
             const Icon = industry.icon;
@@ -445,7 +445,7 @@ export function HomePage() {
 
       <section className="page-shell py-24 md:py-32">
         <div className="flex items-end justify-between gap-5">
-          <SectionHeading eyebrow="Shipray journal" title="Ideas that move businesses." />
+          <SectionHeading eyebrow="ShipRoute journal" title="Ideas that move businesses." />
           <Button asChild variant="outline" className="hidden sm:inline-flex"><Link href="/blog">View all <ArrowRight className="h-4 w-4" /></Link></Button>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
